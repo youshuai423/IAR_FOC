@@ -108,7 +108,7 @@ void positionSVM(unsigned int *Tinv)
   double Angle = 0;
   double theta = 0;
   int sector = 0;
-  double Dm = 0, Dn = 0, D0 = 0;  // ռ�ձ�
+  double Dm = 0, Dn = 0, D0 = 0;  // Dutycycle
   
   Angle = fmod((10 * pi * (period_count / 1000.0)), (2 * pi));
   theta = fmod(Angle,1/3.0 * pi);
@@ -116,9 +116,9 @@ void positionSVM(unsigned int *Tinv)
   Dm = M * sin(1/3.0 * pi - theta) / 2.0;
   Dn = M * sin(theta) / 2.0;
   D0 = (0.5 - Dm - Dn) / 2.0;
-  Dm = roundn(Dm);
-  Dn = roundn(Dn);
-  D0 = roundn(D0);
+  Dm = roundn(Dm, 8);
+  Dn = roundn(Dn, 8);
+  D0 = roundn(D0, 8);
   if (D0 < 0) D0 = 0;
   
   switch (sector)
@@ -158,6 +158,7 @@ void positionSVM(unsigned int *Tinv)
 void ualbeSVM(double Ual, double Ube, unsigned int *Tinv)
 {
   double dm, dn, d0;
+  int sector;
   double k = Ube / Ual;
   
   if (Ual > 0 && Ube >= 0 && k >= 0 && k < sqrt(3))
@@ -268,4 +269,13 @@ void ualbeSVM(double Ual, double Ube, unsigned int *Tinv)
 
 void udqSVM()
 {
+}
+
+double roundn(double input, int digit)
+{
+  double temp;
+  temp = input * pow(10, digit);
+  temp = floor(temp);
+  temp = temp / (pow(10, digit) * 1.0);
+  return temp;
 }

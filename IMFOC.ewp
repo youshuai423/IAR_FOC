@@ -2018,21 +2018,24 @@
       </file>
     </group>
   </group>
-  <file>
-    <name>$PROJ_DIR$\imcontrol.c</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\main.c</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\ysADC.c</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\ysPORT.c</name>
-  </file>
-  <file>
-    <name>$PROJ_DIR$\ysPWM.c</name>
-  </file>
+  <group>
+    <name>sources</name>
+    <file>
+      <name>$PROJ_DIR$\sources\imcontrol.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sources\main.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sources\ysADC.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sources\ysPORT.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sources\ysPWM.c</name>
+    </file>
+  </group>
 </project>
 
 

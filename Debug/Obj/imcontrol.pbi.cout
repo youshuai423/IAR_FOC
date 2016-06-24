@@ -1,4 +1,4 @@
-"C:\Users\yoush\Desktop\IAR_FOC\imcontrol.c"
+"C:\Users\yoush\Desktop\IAR_FOC\sources\imcontrol.c"
 -std=c99
 -ferror-limit=100
 -I

@@ -1,14 +1,9 @@
 #include "main.h"
 #include "math.h"
 
-#define pi 3.1415926535898
-#define digit 100000
-#define period 4625  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
-#define M 0.98  // ï¿½ï¿½ï¿½Æ¶ï¿½
-
-int period_count = 0;  // ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-unsigned int Tinv[3] = {0, 0, 0};  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½È½ï¿½Öµ
-unsigned int last[3];  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TinvÖµ(for test)
+//int period_count = 0;  // ÔØ²¨ÖÜÆÚÊý
+unsigned int Tinv[3] = {0, 0, 0};  // ÈýÏà¶ÔÓ¦±È½ÏÖµ
+unsigned int last[3];  // ÉÏÖÜÆÚTinvÖµ(for test)
 
 void main(void)
 {
@@ -60,7 +55,7 @@ void main(void)
   last[2] = Tinv[2];
     
   PWM_WR_STS_RF(PWMA, 0, 1);
-  /* start PWMs (set load OK flags and run) *
+  // start PWMs (set load OK flags and run)
   PWM_WR_MCTRL_LDOK(PWMA, 1);
   
   //GPIO_WR_PCOR(PTB, 1<<22);
@@ -152,11 +147,3 @@ void SVMUdq(double Ud, double Uq, unsigned int *Tinv)
   }   
 }
 */
-double roundn(double input)
-{
-  double temp;
-  temp = input * digit;
-  temp = floor(temp);
-  temp = temp / digit;
-  return temp;
-}
