@@ -259,6 +259,9 @@ void ualbeSVM(double Ual, double Ube, unsigned int *Tinv)
     }
   default:
     {
+      Tinv[0] = period + 1;
+      Tinv[1] = period + 1;
+      Tinv[2] = period + 1;
     }
   }
 }
