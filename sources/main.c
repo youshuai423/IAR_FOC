@@ -3,12 +3,12 @@
 
 #define pi 3.1415926535898
 #define digit 100000
-#define period 4625  // °ëÖÜÆÚÊ±ÖÓÊý
-#define M 0.98  // µ÷ÖÆ¶È
+#define period 4625  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+#define M 0.98  // ï¿½ï¿½ï¿½Æ¶ï¿½
 
-int period_count = 0;  // ÔØ²¨ÖÜÆÚÊý
-unsigned int Tinv[3] = {0, 0, 0};  // ÈýÏà¶ÔÓ¦±È½ÏÖµ
-unsigned int last[3];  // ÉÏÖÜÆÚTinvÖµ(for test)
+int period_count = 0;  // ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+unsigned int Tinv[3] = {0, 0, 0};  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½È½ï¿½Öµ
+unsigned int last[3];  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TinvÖµ(for test)
 
 void main(void)
 {
@@ -37,9 +37,39 @@ void main(void)
   while(1){}
 }
 
+/* Openloop */
+/*void PWMA_RELOAD0_IRQHandler(void)
+{
+  positionSVM(Tinv);
+  PWM_WR_VAL2(PWMA, 0, -Tinv[0]);
+  PWM_WR_VAL2(PWMA, 1, -Tinv[1]);
+  PWM_WR_VAL2(PWMA, 2, -Tinv[2]);
+  
+  PWM_WR_VAL3(PWMA, 0, Tinv[0]);
+  PWM_WR_VAL3(PWMA, 1, Tinv[1]);
+  PWM_WR_VAL3(PWMA, 2, Tinv[2]);
+  
+  period_count++;
+  if (period_count > 1000) 
+  {
+    period_count = 0;
+  }
+
+  last[0] = Tinv[0];
+  last[1] = Tinv[1];
+  last[2] = Tinv[2];
+    
+  PWM_WR_STS_RF(PWMA, 0, 1);
+  /* start PWMs (set load OK flags and run) *
+  PWM_WR_MCTRL_LDOK(PWMA, 1);
+  
+  //GPIO_WR_PCOR(PTB, 1<<22);
+}*/
+
+/* FOC */
 void PWMA_RELOAD0_IRQHandler(void)
 {
-  SVMUdq(0, 0, Tinv);
+  ualbeSVM(Ual, Ube, Tinv);
   PWM_WR_VAL2(PWMA, 0, -Tinv[0]);
   PWM_WR_VAL2(PWMA, 1, -Tinv[1]);
   PWM_WR_VAL2(PWMA, 2, -Tinv[2]);
@@ -69,13 +99,13 @@ void PWMA_RERR_IRQHandler(void)
 {
   GPIO_WR_PSOR(PTB, 1<<22);
 }
-
+/*
 void SVMUdq(double Ud, double Uq, unsigned int *Tinv)
 {
   double Angle = 0;
   double theta = 0;
   int sector = 0;
-  double Dm = 0, Dn = 0, D0 = 0;  // Õ¼¿Õ±È
+  double Dm = 0, Dn = 0, D0 = 0;  // Õ¼ï¿½Õ±ï¿½
   
   Angle = fmod((10 * pi * (period_count / 1000.0)), (2 * pi));
   theta = fmod(Angle,1/3.0 * pi);
@@ -121,7 +151,7 @@ void SVMUdq(double Ud, double Uq, unsigned int *Tinv)
     Tinv[2] = period - (int)floor(period * (D0 + Dn));
   }   
 }
-
+*/
 double roundn(double input)
 {
   double temp;

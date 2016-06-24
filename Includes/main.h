@@ -12,6 +12,7 @@
 #include "ysPORT.h"
 #include "ysADC.h"
 #include "ysPWM.h"
+#include "imcontrol.h"
 
 /******************************************************************************
 | constants
@@ -24,8 +25,8 @@
 /******************************************************************************
 | local functions prototypes
 |----------------------------------------------------------------------------*/
-double roundn(double);  // ½Ø¶ÏÐ¡ÊýµãºóÎ»Êý
-void SVMUdq(double Ud, double Uq, unsigned int *Tinv);  // ¸ø¶¨Ud¡¢UqµÄSVM
+double roundn(double);  // ï¿½Ø¶ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+void SVMUdq(double Ud, double Uq, unsigned int *Tinv);  // ï¿½ï¿½ï¿½ï¿½Udï¿½ï¿½Uqï¿½ï¿½SVM
 
 /******************************************************************************
 | exported functions
