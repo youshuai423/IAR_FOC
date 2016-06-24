@@ -1,0 +1,15 @@
+"D:\SYSSoft\IAR\arm\bin\armproc.dll" 
+
+"D:\SYSSoft\IAR\arm\bin\armjlink.dll" 
+
+"C:\Users\yoush\Desktop\IAR_FOC\Debug\Exe\c.out" 
+
+--plugin "D:\SYSSoft\IAR\arm\bin\armbat.dll" 
+
+--device_macro "D:\SYSSoft\IAR\arm\config\debugger\Freescale\Kinetis.dmac" 
+
+--flash_loader "D:\SYSSoft\IAR\arm\config\flashloader\Freescale\FlashKV4x32K.board" 
+
+
+
+

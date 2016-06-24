@@ -108,7 +108,7 @@ void positionSVM(unsigned int *Tinv)
   double Angle = 0;
   double theta = 0;
   int sector = 0;
-  double Dm = 0, Dn = 0, D0 = 0;  // ռ�ձ�
+  double Dm = 0, Dn = 0, D0 = 0;  // ռ�ձ�
   
   Angle = fmod((10 * pi * (period_count / 1000.0)), (2 * pi));
   theta = fmod(Angle,1/3.0 * pi);
@@ -238,14 +238,23 @@ void ualbeSVM(double Ual, double Ube, unsigned int *Tinv)
     }
   case 4:
     {
+      Tinv[0] = (int)floor(period * (d0));
+      Tinv[1] = (int)floor(period * (dm + d0));
+      Tinv[2] = (int)floor(period * (dm + dn + d0));
       break;
     }
   case 5:
     {
+      Tinv[0] = (int)floor(period * (dn + d0));
+      Tinv[1] = (int)floor(period * (d0));
+      Tinv[2] = (int)floor(period * (dm + dn + d0));
       break;
     }
   case 6:
     {
+      Tinv[0] = (int)floor(period * (dm + dn + d0));
+      Tinv[1] = (int)floor(period * (d0));
+      Tinv[2] = (int)floor(period * (dm + d0));
       break;
     }
   default:
