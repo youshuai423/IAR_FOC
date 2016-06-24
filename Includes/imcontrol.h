@@ -23,7 +23,22 @@
 /******************************************************************************
 | types
 |----------------------------------------------------------------------------*/
-int period_count;
+typedef struct
+{
+  double a, b, c;
+} PHASE_ABC;
+
+typedef struct
+{
+  double al, be;
+} PHASE_ALBE;
+
+typedef struct
+{
+  double d,q;
+} PHASE_DQ;
+
+extern int period_count;
 
 /******************************************************************************
 | local functions prototypes
@@ -34,7 +49,7 @@ double roundn(double input, int digit);
 | exported functions
 |----------------------------------------------------------------------------*/
 /* Forward conversion */  
-extern void S3toR2(double *abc, double *dq, double theta);
+extern void S3toR2(PHASE_ABC *abc, PHASE_DQ *dq, double theta);
 extern void S3toS2(double *abc, double *albe);
 extern void S2toR2(double *albe, double *dq, double theta);
 

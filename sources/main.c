@@ -1,7 +1,10 @@
 #include "main.h"
 #include "math.h"
 
-//int period_count = 0;  // 载波周期数
+PHASE_ABC iabc;
+PHASE_DQ idq;
+PHASE_ALBE ualbe;
+
 unsigned int Tinv[3] = {0, 0, 0};  // 三相对应比较值
 unsigned int last[3];  // 上周期Tinv值(for test)
 
@@ -63,8 +66,9 @@ void main(void)
 
 /* FOC */
 void PWMA_RELOAD0_IRQHandler(void)
-{
-  ualbeSVM(Ual, Ube, Tinv);
+{  
+  S3toR2(iabc, idq, theta);
+  ualbeSVM(ualbe.al, ualbe.be, Tinv);
   PWM_WR_VAL2(PWMA, 0, -Tinv[0]);
   PWM_WR_VAL2(PWMA, 1, -Tinv[1]);
   PWM_WR_VAL2(PWMA, 2, -Tinv[2]);
@@ -78,11 +82,11 @@ void PWMA_RELOAD0_IRQHandler(void)
   {
     period_count = 0;
   }
-
+/*
   last[0] = Tinv[0];
   last[1] = Tinv[1];
   last[2] = Tinv[2];
-    
+*/    
   PWM_WR_STS_RF(PWMA, 0, 1);
   /* start PWMs (set load OK flags and run) */
   PWM_WR_MCTRL_LDOK(PWMA, 1);

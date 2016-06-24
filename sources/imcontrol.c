@@ -11,6 +11,7 @@
 /******************************************************************************
 | global variable definitions                          
 |----------------------------------------------------------------------------*/
+int period_count = 0;
 
 /******************************************************************************
 @brief   Coordinate transform
@@ -19,10 +20,10 @@
 
 @return  N/A
 ******************************************************************************/
-void S3toR2(double *abc, double *dq, double theta)
+void S3toR2(PHASE_ABC *abc, PHASE_DQ *dq, double theta)
 {
-  dq[0] = sqrt(2.0/3.0) * (cos(theta) * abc[0] + cos(theta - 2.0/3.0*pi) * abc[1] + cos(theta + 2.0/3.0*pi) * abc[2]);
-  dq[1] = -sqrt(2.0/3.0) * (sin(theta) * abc[0] + sin(theta - 2.0/3.0*pi) * abc[1] + sin(theta + 2.0/3.0*pi) * abc[2]);
+  dq->d = sqrt(2.0/3.0) * (cos(theta) * abc->a + cos(theta - 2.0/3.0*pi) * abc->b + cos(theta + 2.0/3.0*pi) * abc->c);
+  dq->q = -sqrt(2.0/3.0) * (sin(theta) * abc->a + sin(theta - 2.0/3.0*pi) * abc->b + sin(theta + 2.0/3.0*pi) * abc->c);
 }
 
 void S3toS2(double *abc, double *albe)

@@ -170,7 +170,7 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 2 62 56 41 26 36 67 65 57 10 23 4 11 55 1 3 54 39 37 44 53 5 60 0 27 48 38 46 8 14</file>
+          <file> 2 56 5 36 4 23 44 53 26 11 55 1 3 54 39 37 62 67 65 57 10 41 60 0 27 48 38 46 8 14</file>
         </tool>
         <tool>
           <name>ICCARM</name>
@@ -216,7 +216,7 @@
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 14 26 62 67 65 11 60 44 3 27 48</file>
+          <file> 26 14 62 67 65 11 60 44 3 27 48</file>
         </tool>
         <tool>
           <name>ICCARM</name>
@@ -339,10 +339,6 @@
         </tool>
       </outputs>
     </file>
-    <forcedrebuild>
-      <name>[MULTI_TOOL]</name>
-      <tool>ILINK</tool>
-    </forcedrebuild>
   </configuration>
   <configuration>
     <name>Release</name>
