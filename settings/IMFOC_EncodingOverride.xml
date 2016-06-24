@@ -9,6 +9,14 @@
     <path>C:\Users\yoush\Desktop\IAR_FOC\main.c</path>
     <encoding>System</encoding>
   </override>
+  <override>
+    <path>C:\Users\yoush\Desktop\IAR_FOC\sources\imcontrol.c</path>
+    <encoding>System</encoding>
+  </override>
+  <override>
+    <path>C:\Users\yoush\Desktop\IAR_FOC\sources\main.c</path>
+    <encoding>System</encoding>
+  </override>
 </userOverrides>
 
 

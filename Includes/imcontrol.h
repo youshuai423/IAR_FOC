@@ -16,14 +16,19 @@
 #define Ts 1e-4
 #define period 4625
 
+#define pi 3.1415926
+#define M 0.95  // modulation factor
+#define Ud 60
+
 /******************************************************************************
 | types
 |----------------------------------------------------------------------------*/
-#define pi 3.1415926
+int period_count;
 
 /******************************************************************************
 | local functions prototypes
 |----------------------------------------------------------------------------*/
+double roundn(double input, int digit);
 
 /******************************************************************************
 | exported functions
@@ -53,7 +58,7 @@ extern double Integrator(double paramin, double sum);
 
 /* SVM */  
 extern void positionSVM();
-extern void ualbeSVM();
+extern void ualbeSVM(double Ual, double Ube, unsigned int *Tinv);
 extern void udqSVM();
 
 #ifdef __cplusplus

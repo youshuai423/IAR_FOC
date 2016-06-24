@@ -6,7 +6,7 @@
 #define period 4625  // 半周期时钟数
 #define M 0.98  // 调制度
 
-int period_count = 0;  // 载波周期数
+//int period_count = 0;  // 载波周期数
 unsigned int Tinv[3] = {0, 0, 0};  // 三相对应比较值
 unsigned int last[3];  // 上周期Tinv值(for test)
 
@@ -122,11 +122,3 @@ void SVMUdq(double Ud, double Uq, unsigned int *Tinv)
   }   
 }
 
-double roundn(double input)
-{
-  double temp;
-  temp = input * digit;
-  temp = floor(temp);
-  temp = temp / digit;
-  return temp;
-}
