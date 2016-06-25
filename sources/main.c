@@ -13,6 +13,7 @@ PHASE_ALBE ualbe;
 PHASE_DQ udq;
 
 double theta = 0;
+double lamdar = 0;
 
 unsigned int Tinv[3] = {0, 0, 0};  // ������Ӧ�Ƚ�ֵ
 unsigned int last[3];  // ������Tinvֵ(for test)
@@ -98,13 +99,14 @@ void PWMA_RELOAD0_IRQHandler(void)
   lamdar = lamdarCal(lamdar, idq.d);
 
   /* theta calculation */
+  theta = positonCal(wr, lamdar, idq.q, theta);
 
   /* ud* calculation */
-  udq.d = PImodule(ud_Kp, ud_Ki, idset - idq.d, &ud_Isum, ud_Uplim, ud_Downlim);
+  udq.d = PImodule(ud_Kp, ud_Ki, idset - idq.d, &ud_Isum, ud_Uplimit, ud_Downlimit);
 
   /* uq* calculation */
-  iqset = PImodule(iqset_Kp, iqset_Ki, nset - n, &iqset_Isum, iqset_Uplim, iqset_Downlim);
-  udq.q = PImodule(uq_Kp, uq_Ki, iqset - idq.q, &uq_Isum, uq_Uplim, uq_Downlim);
+  iqset = PImodule(iqset_Kp, iqset_Ki, nset - n, &iqset_Isum, iqset_Uplimit, iqset_Downlimit);
+  udq.q = PImodule(uq_Kp, uq_Ki, iqset - idq.q, &uq_Isum, uq_Uplimit, uq_Downlimit);
 
   /* 2r/2s coordinate transform */
   R2toS2(&udq, &ualbe, theta);

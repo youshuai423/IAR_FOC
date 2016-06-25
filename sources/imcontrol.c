@@ -11,6 +11,13 @@
 /******************************************************************************
 | global variable definitions                          
 |----------------------------------------------------------------------------*/
+double n = 0;
+double wr = 0;
+double iqset = 0;
+
+double ud_Isum = 0;
+double uq_Isum = 0;
+double iqset_Isum = 0;
 int period_count = 0;
 
 /******************************************************************************
@@ -22,36 +29,36 @@ void S3toR2(PHASE_ABC *abc, PHASE_DQ *dq, double theta)
   dq->q = -sqrt(2.0/3.0) * (sin(theta) * abc->a + sin(theta - 2.0/3.0*pi) * abc->b + sin(theta + 2.0/3.0*pi) * abc->c);
 }
 
-void S3toS2(double *abc, double *albe)
+void S3toS2(PHASE_ABC *abc, PHASE_ALBE *albe)
 {
-  albe[0] = sqrt(2.0/3.0) * (abc[0] - 0.5 * abc[1] - 0.5 * abc[2]);
-  albe[1] = sqrt(2.0/3.0) * (sqrt(3)/2.0 * abc[1] - sqrt(3)/2.0 * abc[2]);
+  albe->al = sqrt(2.0/3.0) * (abc->a - 0.5 * abc->b - 0.5 * abc->c);
+  albe->be = sqrt(2.0/3.0) * (sqrt(3)/2.0 * abc->b - sqrt(3)/2.0 * abc->c);
 }
 
-void S2toR2(double *albe, double *dq, double theta)
+void S2toR2(PHASE_ALBE *albe, PHASE_DQ *dq, double theta)
 {
-  dq[0] = cos(theta) * albe[0] + sin(theta) * albe[1];
-  dq[1] = -sin(theta) * albe[0] + cos(theta) * albe[1];
+  dq->d = cos(theta) * albe->al + sin(theta) * albe->be;
+  dq->q = -sin(theta) * albe->al + cos(theta) * albe->be;
 }
 
-void R2toS3(double *dq, double *abc, double theta)
+void R2toS3(PHASE_DQ *dq, PHASE_ABC *abc, double theta)
 {
-  abc[0] = sqrt(2.0/3.0) * (cos(theta) * dq[0] - sin(theta) *dq[1]);
-  abc[1] = sqrt(2.0/3.0) * (cos(theta - 2.0/3.0*pi) * dq[0] - sin(theta - 2.0/3.0*pi) *dq[1]);
-  abc[2] = sqrt(2.0/3.0) * (cos(theta + 2.0/3.0*pi) * dq[0] - sin(theta + 2.0/3.0*pi) *dq[1]);
+  abc->a = sqrt(2.0/3.0) * (cos(theta) * dq->d - sin(theta) *dq->q);
+  abc->b = sqrt(2.0/3.0) * (cos(theta - 2.0/3.0*pi) * dq->d - sin(theta - 2.0/3.0*pi) *dq->q);
+  abc->c = sqrt(2.0/3.0) * (cos(theta + 2.0/3.0*pi) * dq->d - sin(theta + 2.0/3.0*pi) *dq->q);
 }
 
-void S2toS3(double *albe, double *abc)
+void S2toS3(PHASE_ALBE *albe, PHASE_ABC *abc)
 {
-  abc[0] = sqrt(2.0/3.0) * albe[0];
-  abc[1] = sqrt(2.0/3.0) * (-0.5 * albe[0] + sqrt(3)/2.0 * albe[1]);
-  abc[2] = sqrt(2.0/3.0) * (-0.5 * albe[0] - sqrt(3)/2.0 * albe[1]);
+  abc->a = sqrt(2.0/3.0) * albe->al;
+  abc->b = sqrt(2.0/3.0) * (-0.5 * albe->al + sqrt(3)/2.0 * albe->be);
+  abc->c = sqrt(2.0/3.0) * (-0.5 * albe->al - sqrt(3)/2.0 * albe->be);
 }
 
-void R2toS2(double *dq, double *albe, double theta)
+void R2toS2(PHASE_DQ *dq, PHASE_ALBE *albe, double theta)
 {
-  albe[0] = cos(theta) * dq[0] - sin(theta) * dq[1];
-  albe[1] = sin(theta) * dq[0] + cos(theta) * dq[1];
+  albe->al = cos(theta) * dq->d - sin(theta) * dq->q;
+  albe->be = sin(theta) * dq->d + cos(theta) * dq->q;
 }
 
 /******************************************************************************
@@ -78,13 +85,16 @@ void wrCal()
 {
 }
 
-void positonCal(double wr, double lamdar, double ist)
+double positonCal(double wr, double lamdar, double ist, double theta)
 {
-  double we = 0;
-  double theta = 0;
+  double we = 0;  
   
-  we = Lm/Tr * ist / lamdar + wr;
-  theta = Integrator(we, theta);
+  if (lamdar > 0.01)
+    we = Lm/Tr * ist / lamdar + wr;
+  else
+    we = 0;
+  
+  return Integrator(we, theta, Ts);
 } 
 
 /******************************************************************************
@@ -101,9 +111,9 @@ double PImodule(double Kp, double Ki, double err, double *Isum, double Uplim, do
     return Downlim;
 }
 
-double Integrator(double paramin, double sum)
+double Integrator(double paramin, double sum, double ts)
 {
-  return paramin * Ts + sum;
+  return paramin * ts + sum;
 }
 
 /******************************************************************************
