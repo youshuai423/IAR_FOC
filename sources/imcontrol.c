@@ -14,11 +14,7 @@
 int period_count = 0;
 
 /******************************************************************************
-@brief   Coordinate transform
-
-@param   N/A
-
-@return  N/A
+@brief   Coordinate Transform
 ******************************************************************************/
 void S3toR2(PHASE_ABC *abc, PHASE_DQ *dq, double theta)
 {
@@ -58,6 +54,9 @@ void R2toS2(double *dq, double *albe, double theta)
   albe[1] = sin(theta) * dq[0] + cos(theta) * dq[1];
 }
 
+/******************************************************************************
+@brief   Rotor Flux Calculation
+******************************************************************************/
 /* calculate lamdar */  
 double lamdarCal(double lamdar, double ism)
 {
@@ -72,7 +71,9 @@ void lamdaralbeCal()
 {
 }
 
-/* calculate position and speed */  
+/******************************************************************************
+@brief   Calculate Position and Speed 
+******************************************************************************/
 void wrCal()
 {
 }
@@ -86,7 +87,9 @@ void positonCal(double wr, double lamdar, double ist)
   theta = Integrator(we, theta);
 } 
 
-/* PI module */  
+/******************************************************************************
+@brief   PI Module 
+******************************************************************************/
 double PImodule(double Kp, double Ki, double err, double *Isum, double Uplim, double Downlim)
 {
   *Isum += Ki * Ts * err;
@@ -103,7 +106,9 @@ double Integrator(double paramin, double sum)
   return paramin * Ts + sum;
 }
 
-/* SVM */  
+/******************************************************************************
+@brief   SVM 
+******************************************************************************/ 
 void positionSVM(unsigned int *Tinv)
 {
   double Angle = 0;
@@ -272,6 +277,9 @@ void udqSVM()
 {
 }
 
+/******************************************************************************
+@brief   Auxiliary Function
+******************************************************************************/
 double roundn(double input, int digit)
 {
   double temp;

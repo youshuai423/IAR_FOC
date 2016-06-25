@@ -1,13 +1,29 @@
+/******************************************************************************
+| includes                          
+|----------------------------------------------------------------------------*/
 #include "main.h"
 #include "math.h"
 
+/******************************************************************************
+| local variable definitions                          
+|----------------------------------------------------------------------------*/
 PHASE_ABC iabc;
 PHASE_DQ idq;
 PHASE_ALBE ualbe;
+PHASE_DQ udq;
 
-unsigned int Tinv[3] = {0, 0, 0};  // ÈýÏà¶ÔÓ¦±È½ÏÖµ
-unsigned int last[3];  // ÉÏÖÜÆÚTinvÖµ(for test)
+double theta = 0;
 
+unsigned int Tinv[3] = {0, 0, 0};  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½È½ï¿½Öµ
+unsigned int last[3];  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½TinvÖµ(for test)
+
+/******************************************************************************
+| global variable definitions                          
+|----------------------------------------------------------------------------*/
+
+/******************************************************************************
+@brief  Main 
+******************************************************************************/
 void main(void)
 {
   /* disable all interrupts before peripherals are initialized */
@@ -35,7 +51,9 @@ void main(void)
   while(1){}
 }
 
-/* Openloop */
+/******************************************************************************
+@brief  Openloop 
+******************************************************************************/
 /*void PWMA_RELOAD0_IRQHandler(void)
 {
   positionSVM(Tinv);
@@ -64,11 +82,37 @@ void main(void)
   //GPIO_WR_PCOR(PTB, 1<<22);
 }*/
 
-/* FOC */
+/******************************************************************************
+@brief   FOC 
+******************************************************************************/
 void PWMA_RELOAD0_IRQHandler(void)
-{  
-  S3toR2(iabc, idq, theta);
+{
+  /* current sampling */
+
+  /* speed calculation */
+
+  /* 3s/2r coordinate transform */
+  S3toR2(&iabc, &idq, theta);
+
+  /* rotor flux calculation */
+  lamdar = lamdarCal(lamdar, idq.d);
+
+  /* theta calculation */
+
+  /* ud* calculation */
+  udq.d = PImodule(ud_Kp, ud_Ki, idset - idq.d, &ud_Isum, ud_Uplim, ud_Downlim);
+
+  /* uq* calculation */
+  iqset = PImodule(iqset_Kp, iqset_Ki, nset - n, &iqset_Isum, iqset_Uplim, iqset_Downlim);
+  udq.q = PImodule(uq_Kp, uq_Ki, iqset - idq.q, &uq_Isum, uq_Uplim, uq_Downlim);
+
+  /* 2r/2s coordinate transform */
+  R2toS2(&udq, &ualbe, theta);
+
+  /* SVM modulation */
   ualbeSVM(ualbe.al, ualbe.be, Tinv);
+
+  /* register setting */
   PWM_WR_VAL2(PWMA, 0, -Tinv[0]);
   PWM_WR_VAL2(PWMA, 1, -Tinv[1]);
   PWM_WR_VAL2(PWMA, 2, -Tinv[2]);
@@ -76,20 +120,10 @@ void PWMA_RELOAD0_IRQHandler(void)
   PWM_WR_VAL3(PWMA, 0, Tinv[0]);
   PWM_WR_VAL3(PWMA, 1, Tinv[1]);
   PWM_WR_VAL3(PWMA, 2, Tinv[2]);
-  
-  period_count++;
-  if (period_count > 1000) 
-  {
-    period_count = 0;
-  }
-/*
-  last[0] = Tinv[0];
-  last[1] = Tinv[1];
-  last[2] = Tinv[2];
-*/    
+
   PWM_WR_STS_RF(PWMA, 0, 1);
-  /* start PWMs (set load OK flags and run) */
-  PWM_WR_MCTRL_LDOK(PWMA, 1);
+  
+  PWM_WR_MCTRL_LDOK(PWMA, 1);  // start PWMs (set load OK flags and run)
   
   //GPIO_WR_PCOR(PTB, 1<<22);
 }
@@ -98,56 +132,3 @@ void PWMA_RERR_IRQHandler(void)
 {
   GPIO_WR_PSOR(PTB, 1<<22);
 }
-/*
-void SVMUdq(double Ud, double Uq, unsigned int *Tinv)
-{
-  double Angle = 0;
-  double theta = 0;
-  int sector = 0;
-  double Dm = 0, Dn = 0, D0 = 0;  // Õ¼ï¿½Õ±ï¿½
-  
-  Angle = fmod((10 * pi * (period_count / 1000.0)), (2 * pi));
-  theta = fmod(Angle,1/3.0 * pi);
-  sector = (int)floor( Angle / (1/3.0 * pi)) + 1;
-  Dm = M * sin(1/3.0 * pi - theta) / 2.0;
-  Dn = M * sin(theta) / 2.0;
-  D0 = (0.5 - Dm - Dn) / 2.0;
-  Dm = roundn(Dm);
-  Dn = roundn(Dn);
-  D0 = roundn(D0);
-  if (D0 < 0) D0 = 0;
-  
-  switch (sector)
-  {
-  case 1:
-    Tinv[0] = period - (int)floor(period * (D0));
-    Tinv[1] = period - (int)floor(period * (D0 + Dm));
-    Tinv[2] = period - (int)floor(period * (D0 + Dm + Dn));
-    break;
-  case 2:
-    Tinv[0] = period - (int)floor(period * (D0 + Dn));
-    Tinv[1] = period - (int)floor(period * (D0));
-    Tinv[2] = period - (int)floor(period * (D0 + Dm + Dn));
-    break;
-  case 3:
-    Tinv[0] = period - (int)floor(period * (D0 + Dm + Dn));
-    Tinv[1] = period - (int)floor(period * (D0));
-    Tinv[2] = period - (int)floor(period * (D0 + Dm));
-    break;
-  case 4:
-    Tinv[0] = period - (int)floor(period * (D0 + Dm + Dn));
-    Tinv[1] = period - (int)floor(period * (D0 + Dn));
-    Tinv[2] = period - (int)floor(period * (D0));
-    break;
-  case 5:
-    Tinv[0] = period - (int)floor(period * (D0 + Dm));
-    Tinv[1] = period - (int)floor(period * (D0 + Dm + Dn));
-    Tinv[2] = period - (int)floor(period * (D0));
-    break;  
-  case 6:
-    Tinv[0] = period - (int)floor(period * (D0));
-    Tinv[1] = period - (int)floor(period * (D0 + Dm + Dn));
-    Tinv[2] = period - (int)floor(period * (D0 + Dn));
-  }   
-}
-*/
