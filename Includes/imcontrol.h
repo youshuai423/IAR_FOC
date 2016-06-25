@@ -23,7 +23,7 @@
 #define idset 2
 
 // PI parameters
-#define ud_Kp 0
+#define ud_Kp 50
 #define ud_Ki 0
 #define ud_Uplimit 0
 #define ud_Downlimit 0

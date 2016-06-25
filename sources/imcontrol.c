@@ -25,14 +25,18 @@ int period_count = 0;
 ******************************************************************************/
 void S3toR2(PHASE_ABC *abc, PHASE_DQ *dq, double theta)
 {
-  dq->d = sqrt(2.0/3.0) * (cos(theta) * abc->a + cos(theta - 2.0/3.0*pi) * abc->b + cos(theta + 2.0/3.0*pi) * abc->c);
-  dq->q = -sqrt(2.0/3.0) * (sin(theta) * abc->a + sin(theta - 2.0/3.0*pi) * abc->b + sin(theta + 2.0/3.0*pi) * abc->c);
+  //dq->d = sqrt(2.0/3.0) * (cos(theta) * abc->a + cos(theta - 2.0/3.0*pi) * abc->b + cos(theta + 2.0/3.0*pi) * abc->c);
+  //dq->q = -sqrt(2.0/3.0) * (sin(theta) * abc->a + sin(theta - 2.0/3.0*pi) * abc->b + sin(theta + 2.0/3.0*pi) * abc->c);
+  dq->d = sqrt(2.0) * (cos(theta - 1.0/6.0*pi) * abc->a + sin(theta) * abc->b);
+  dq->q = -sqrt(2.0) * (sin(theta - 1.0/6.0*pi) * abc->a - cos(theta) * abc->b);
 }
 
 void S3toS2(PHASE_ABC *abc, PHASE_ALBE *albe)
 {
-  albe->al = sqrt(2.0/3.0) * (abc->a - 0.5 * abc->b - 0.5 * abc->c);
-  albe->be = sqrt(2.0/3.0) * (sqrt(3)/2.0 * abc->b - sqrt(3)/2.0 * abc->c);
+  //albe->al = sqrt(2.0/3.0) * (abc->a - 0.5 * abc->b - 0.5 * abc->c);
+  //albe->be = sqrt(2.0/3.0) * (sqrt(3)/2.0 * abc->b - sqrt(3)/2.0 * abc->c);
+  albe->al = sqrt(3.0/2.0) * abc->a;
+  albe->be = 1.0/sqrt(2) * abc->a + sqrt(2) * abc->b;
 }
 
 void S2toR2(PHASE_ALBE *albe, PHASE_DQ *dq, double theta)
