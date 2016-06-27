@@ -52,7 +52,7 @@ void InitADC(void)
   /* power-up ADCA and ADCB */
   ADC_WR_PWR_PD0(ADC, 0);
   ADC_WR_PWR_PD1(ADC, 0);
-    
+    \
   /* enable & setup interrupt from ADC */
   // NVIC_EnableIRQ(ADCA_IRQn);                                                  /* enable Interrupt */
   // NVIC_SetPriority(ADCA_IRQn, 4);                                             /* set priority to interrupt */

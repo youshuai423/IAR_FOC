@@ -7,16 +7,8 @@
 /******************************************************************************
 | local variable definitions                          
 |----------------------------------------------------------------------------*/
-PHASE_ABC iabc;
-PHASE_DQ idq;
-PHASE_ALBE ualbe;
-PHASE_DQ udq;
-
-double theta = 0;
-double lamdar = 0;
-
-unsigned int Tinv[3] = {0, 0, 0};  // ������Ӧ�Ƚ�ֵ
-unsigned int last[3];  // ������Tinvֵ(for test)
+unsigned int Tinv[3] = {0, 0, 0};  // 
+unsigned int last[3];  // 
 
 /******************************************************************************
 | global variable definitions                          
@@ -88,31 +80,49 @@ void main(void)
 ******************************************************************************/
 void PWMA_RELOAD0_IRQHandler(void)
 {
-  /* current sampling */
+  Ud = 60;
+  ualbe_cmd.al = 35 * cos(2*pi*10 * (period_count/1000.0));
+  ualbe_cmd.be = 35 * cos(2*pi*10 * (period_count/1000.0) - 0.5*pi);
+  
+  period_count++;
+  if (period_count > 1000) 
+  {
+    period_count = 0;
+  }
 
-  /* speed calculation */
+  last[0] = Tinv[0];
+  last[1] = Tinv[1];
+  last[2] = Tinv[2];
+  
+  /* current sampling and voltage calculation *
 
-  /* 3s/2r coordinate transform */
+  /* speed calculation *
+  wrCal(&lamdaralbe, &anglek, ualbe, ialbe, Ts);
+  /* 3s/2r coordinate transform *
   S3toR2(&iabc, &idq, theta);
 
-  /* rotor flux calculation */
+  /* rotor flux calculation *
   lamdar = lamdarCal(lamdar, idq.d);
 
-  /* theta calculation */
+  /* theta calculation *
   theta = positonCal(wr, lamdar, idq.q, theta);
 
-  /* ud* calculation */
-  udq.d = PImodule(ud_Kp, ud_Ki, idset - idq.d, &ud_Isum, ud_Uplimit, ud_Downlimit);
+  /* ud* calculation *
+  udq_cmd.d = PImodule(ud_Kp, ud_Ki, idset - idq.d, &ud_Isum, ud_Uplimit, ud_Downlimit);
 
-  /* uq* calculation */
-  iqset = PImodule(iqset_Kp, iqset_Ki, nset - n, &iqset_Isum, iqset_Uplimit, iqset_Downlimit);
-  udq.q = PImodule(uq_Kp, uq_Ki, iqset - idq.q, &uq_Isum, uq_Uplimit, uq_Downlimit);
+  /* uq* calculation *
+  if (n < 370)
+    iqset = PImodule(iqset_Kp1, iqset_Ki1, nset - n, &iqset_Isum, iqset_Uplimit, iqset_Downlimit);
+  else
+    iqset = PImodule(iqset_Kp2, iqset_Ki2, nset - n, &iqset_Isum, iqset_Uplimit, iqset_Downlimit);
+  
+  udq_cmd.q = PImodule(uq_Kp, uq_Ki, iqset - idq.q, &uq_Isum, uq_Uplimit, uq_Downlimit);
 
-  /* 2r/2s coordinate transform */
-  R2toS2(&udq, &ualbe, theta);
+  /* 2r/2s coordinate transform *
+  R2toS2(&udq_cmd, &ualbe_cmd, theta); */
 
   /* SVM modulation */
-  ualbeSVM(ualbe.al, ualbe.be, Tinv);
+  ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv);
 
   /* register setting */
   PWM_WR_VAL2(PWMA, 0, -Tinv[0]);
@@ -127,7 +137,7 @@ void PWMA_RELOAD0_IRQHandler(void)
   
   PWM_WR_MCTRL_LDOK(PWMA, 1);  // start PWMs (set load OK flags and run)
   
-  //GPIO_WR_PCOR(PTB, 1<<22);
+  //GPIO_WR_PCOR(PTB, 1<<22); */
 }
 
 void PWMA_RERR_IRQHandler(void)

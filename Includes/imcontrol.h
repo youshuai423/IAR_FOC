@@ -2,6 +2,7 @@
 | includes
 |----------------------------------------------------------------------------*/
 //#include "fsl_device_registers.h"
+#include "math.h"
 
 /******************************************************************************
 | constants
@@ -16,32 +17,33 @@
 
 // period
 #define Ts 1e-4
-#define period 4625
+#define period 3700
 
 // command values
 #define nset 400
-#define idset 2
+#define idset 1.5
 
 // PI parameters
-#define ud_Kp 50
+#define ud_Kp 6
 #define ud_Ki 0
-#define ud_Uplimit 0
-#define ud_Downlimit 0
+#define ud_Uplimit 60
+#define ud_Downlimit -60
 
-#define iqset_Kp 0
-#define iqset_Ki 0
+#define iqset_Kp1 2
+#define iqset_Ki1 0
+#define iqset_Kp2 1
+#define iqset_Ki2 20
 #define iqset_Uplimit 0
 #define iqset_Downlimit 0
 
-#define uq_Kp 0
-#define uq_Ki 0
-#define uq_Uplimit 0
-#define uq_Downlimit 0
+#define uq_Kp 3
+#define uq_Ki 10
+#define uq_Uplimit 60
+#define uq_Downlimit -60
 
 // auxiliary
 #define pi 3.1415926
 #define M 0.95  // modulation factor
-#define Ud 60
 
 /******************************************************************************
 | types
@@ -61,6 +63,16 @@ typedef struct
   double d,q;
 } PHASE_DQ;
 
+extern PHASE_ALBE ualbe;
+extern PHASE_ABC iabc;
+extern PHASE_ALBE ialbe;
+extern PHASE_DQ idq;
+extern PHASE_ALBE ualbe_cmd;
+extern PHASE_DQ udq_cmd;
+extern double Ud;
+
+extern double theta;
+extern double lamdar;
 extern double n;
 extern double wr;
 extern double iqset;
@@ -69,6 +81,13 @@ extern double ud_Isum;
 extern double uq_Isum;
 extern double iqset_Isum;
 extern int period_count;
+
+extern PHASE_ALBE lamdaralbe;
+extern double anglek;
+extern double ualsum;
+extern double ubesum;
+extern double ialsum;
+extern double ibesum;
 
 /******************************************************************************
 | local functions prototypes
@@ -91,10 +110,11 @@ extern void R2toS2(PHASE_DQ *dq, PHASE_ALBE *albe, double theta);
 /* calculate lamdar */  
 extern double lamdarCal(double lamdar, double ism);
 extern void lamdardqCal();
-extern void lamdaralbeCal();
+extern void lamdaralbeCal(PHASE_ALBE ualbe, PHASE_ALBE ialbe, double *ualsum, \
+        double *ubesum, double *ialsum, double *ibesum, PHASE_ALBE *lamdaralbe);
 
 /* calculate position and speed */  
-extern void wrCal();
+extern double wrCal(PHASE_ALBE *lamdaralbe, double *anglek, PHASE_ALBE ualbe, PHASE_ALBE ialbe, double ts);
 extern double positonCal(double wr, double lamdar, double ist, double theta);
 
 /* PI module */  
@@ -103,7 +123,7 @@ extern double Integrator(double paramin, double sum, double ts);
 
 /* SVM */  
 extern void positionSVM();
-extern void ualbeSVM(double Ual, double Ube, unsigned int *Tinv);
+extern void ualbeSVM(double Ual, double Ube, double Ud, unsigned int *Tinv);
 extern void udqSVM();
 
 #ifdef __cplusplus

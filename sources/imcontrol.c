@@ -2,7 +2,6 @@
 | includes                          
 |----------------------------------------------------------------------------*/
 #include "imcontrol.h"
-#include "math.h"
 
 /******************************************************************************
 | local variable definitions                          
@@ -11,6 +10,16 @@
 /******************************************************************************
 | global variable definitions                          
 |----------------------------------------------------------------------------*/
+PHASE_ALBE ualbe;
+PHASE_ABC iabc;
+PHASE_ALBE ialbe;
+PHASE_DQ idq;
+PHASE_ALBE ualbe_cmd;
+PHASE_DQ udq_cmd;
+double Ud = 0;
+
+double theta = 0;
+double lamdar = 0;
 double n = 0;
 double wr = 0;
 double iqset = 0;
@@ -19,6 +28,13 @@ double ud_Isum = 0;
 double uq_Isum = 0;
 double iqset_Isum = 0;
 int period_count = 0;
+
+PHASE_ALBE lamdaralbe;
+double anglek = 0;
+double ualsum = 0;
+double ubesum = 0;
+double ialsum = 0;
+double ibesum = 0;
 
 /******************************************************************************
 @brief   Coordinate Transform
@@ -74,19 +90,52 @@ double lamdarCal(double lamdar, double ism)
   return (1.0 - Ts/Tr) * lamdar + Lm*Ts/Tr * ism;
 }
 
-void lamdardqCal()
+void lamdaralbeCal(PHASE_ALBE ualbe, PHASE_ALBE ialbe, double *ualsum, double *ubesum, double *ialsum, double *ibesum, PHASE_ALBE *lamdaralbe)
 {
+  double tempal, tempbe;
+  tempal = Integrator(ualbe.al, *ualsum, Ts) - Rs * Integrator(ialbe.al, *ialsum, Ts) - (Ls*Lr/Lm - Lm) * ialbe.al;
+  tempbe = Integrator(ualbe.be, *ubesum, Ts) - Rs * Integrator(ialbe.be, *ibesum, Ts) - (Ls*Lr/Lm - Lm) * ialbe.be;
+  lamdaralbe->al = tempal * Lr/Lm;
+  lamdaralbe->be = tempbe * Lr/Lm;
 }
 
-void lamdaralbeCal()
+void lamdardqCal()
 {
 }
 
 /******************************************************************************
 @brief   Calculate Position and Speed 
 ******************************************************************************/
-void wrCal()
+double wrCal(PHASE_ALBE *lamdaralbe, double *anglek, PHASE_ALBE ualbe, PHASE_ALBE ialbe, double ts)
 {
+  double angle = 0;
+  double we =0, wsl = 0;
+  
+  lamdaralbeCal(ualbe, ialbe, &ualsum, &ubesum, &ialsum, &ibesum, lamdaralbe);
+  if (lamdaralbe->al != 0)
+  {    
+    angle = atan(lamdaralbe->be / lamdaralbe->al);
+    if (fabs(angle - *anglek) < 0.5 * pi)
+      we = (angle - *anglek) / ts;
+    else if (angle <= 0)
+      we = (angle - *anglek + pi) / ts;
+    else
+      we = (angle - *anglek - pi);
+    
+    *anglek = angle;
+    
+    wsl = Lm/Tr * (lamdaralbe->be - lamdaralbe->al) / (pow(lamdaralbe->al, 2) + pow(lamdaralbe->be, 2));
+  }
+  else
+  {
+    we = 0;
+    wsl = 0;
+  }
+  
+  if (fabs(we - wsl) < 90)
+    return we - wsl;
+  else
+    return 0;
 }
 
 double positonCal(double wr, double lamdar, double ist, double theta)
@@ -175,7 +224,7 @@ void positionSVM(unsigned int *Tinv)
   }   
 }
 
-void ualbeSVM(double Ual, double Ube, unsigned int *Tinv)
+void ualbeSVM(double Ual, double Ube, double Ud, unsigned int *Tinv)
 {
   double dm, dn, d0;
   int sector;
@@ -191,12 +240,12 @@ void ualbeSVM(double Ual, double Ube, unsigned int *Tinv)
   {
     sector = 2;
     dm = (Ual + Ube/sqrt(3)) / Ud;
-    dn = (-Ual - Ube/sqrt(3)) / Ud;
+    dn = (-Ual + Ube/sqrt(3)) / Ud;
   }
   else if (Ual < 0 && Ube > 0 && k >= -sqrt(3) && k < 0)
   {
     sector = 3;
-    dm = 2/sqrt(3) * Ual / Ud;
+    dm = 2/sqrt(3) * Ube / Ud;
     dn = (-Ual - Ube/sqrt(3)) / Ud;
   }
   else if (Ual < 0 && Ube <= 0 && k >= 0 && k < sqrt(3))

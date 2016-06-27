@@ -18,7 +18,7 @@
           
           
           
-        <Column0>157</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+        <Column0>163</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
       <TerminalIO/>
       <Register>
@@ -33,11 +33,11 @@
         
         
       <ColumnWidth0>20</ColumnWidth0><ColumnWidth1>1307</ColumnWidth1></Debug-Log>
-    </Static>
+    <Select-Ambiguous-Definitions><ColumnWidth0>470</ColumnWidth0><ColumnWidth1>67</ColumnWidth1><ColumnWidth2>806</ColumnWidth2></Select-Ambiguous-Definitions></Static>
     <Windows>
       
       
-    <Wnd1>
+    <Wnd0>
         <Tabs>
           <Tab>
             <Identity>TabID-20220-895</Identity>
@@ -51,9 +51,9 @@
             <Factory>Debug-Log</Factory>
             <Session/>
           </Tab>
-        </Tabs>
+        <Tab><Identity>TabID-27454-946</Identity><TabName>Ambiguous Definitions</TabName><Factory>Select-Ambiguous-Definitions</Factory><Session/></Tab></Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd1><Wnd3>
+      <SelectedTab>0</SelectedTab></Wnd0><Wnd2>
         <Tabs>
           <Tab>
             <Identity>TabID-30968-898</Identity>
@@ -61,24 +61,24 @@
             <Factory>Workspace</Factory>
             <Session>
               
-            <NodeDict><ExpandedNode>IMFOC</ExpandedNode></NodeDict></Session>
+            <NodeDict><ExpandedNode>IMFOC</ExpandedNode><ExpandedNode>IMFOC/Includes</ExpandedNode><ExpandedNode>IMFOC/sources</ExpandedNode></NodeDict></Session>
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd3></Windows>
+      <SelectedTab>0</SelectedTab></Wnd2></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Includes\main.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>10</YPos2><SelStart2>723</SelStart2><SelEnd2>723</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>73</YPos2><SelStart2>3212</SelStart2><SelEnd2>3212</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Includes\imcontrol.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>12</YPos2><SelStart2>668</SelStart2><SelEnd2>668</SelEnd2></Tab><ActiveTab>2</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\imcontrol.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>58</YPos2><SelStart2>3198</SelStart2><SelEnd2>3198</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Includes\main.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>723</SelStart2><SelEnd2>723</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>118</YPos2><SelStart2>4056</SelStart2><SelEnd2>4056</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Includes\imcontrol.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>2</YPos2><SelStart2>593</SelStart2><SelEnd2>593</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\imcontrol.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>263</YPos2><SelStart2>8775</SelStart2><SelEnd2>8775</SelEnd2></Tab><ActiveTab>3</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\ysPWM.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>18</YPos2><SelStart2>1275</SelStart2><SelEnd2>1275</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Includes\ysPWM.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>423</SelStart2><SelEnd2>423</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-05865E98><key>iaridepm.enu1</key></Toolbar-05865E98></Sizes></Row0></Top><Left><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>496</Bottom><Right>231</Right><x>-2</x><y>-2</y><xscreen>321</xscreen><yscreen>806</yscreen><sizeHorzCX>234993</sizeHorzCX><sizeHorzCY>1159712</sizeHorzCY><sizeVertCX>170571</sizeVertCX><sizeVertCY>716547</sizeVertCY></Rect></Wnd3></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>154</Bottom><Right>1368</Right><x>-2</x><y>-2</y><xscreen>1370</xscreen><yscreen>156</yscreen><sizeHorzCX>1002928</sizeHorzCX><sizeHorzCY>224460</sizeHorzCY><sizeVertCX>234993</sizeVertCX><sizeVertCY>1159712</sizeVertCY></Rect></Wnd1></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-05755C40><key>iaridepm.enu1</key></Toolbar-05755C40></Sizes></Row0></Top><Left><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>482</Bottom><Right>237</Right><x>-2</x><y>-2</y><xscreen>329</xscreen><yscreen>520</yscreen><sizeHorzCX>240849</sizeHorzCX><sizeHorzCY>748201</sizeHorzCY><sizeVertCX>174963</sizeVertCX><sizeVertCY>696403</sizeVertCY></Rect></Wnd2></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>168</Bottom><Right>1368</Right><x>-2</x><y>-2</y><xscreen>1370</xscreen><yscreen>170</yscreen><sizeHorzCX>1002928</sizeHorzCX><sizeHorzCY>244604</sizeHorzCY><sizeVertCX>240849</sizeVertCX><sizeVertCY>748201</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 
