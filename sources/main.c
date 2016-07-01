@@ -24,7 +24,8 @@ void main(void)
   
   /* init application ports */  
   InitPORT();  
-  InitPWM();    
+  InitPWM();   
+  //InitFTM0();
   InitADC();
   //Init_PIT();
   
@@ -45,59 +46,25 @@ void main(void)
 }
 
 /******************************************************************************
-@brief  Openloop 
-******************************************************************************/
-/*void PWMA_RELOAD0_IRQHandler(void)
-{
-  positionSVM(Tinv);
-  PWM_WR_VAL2(PWMA, 0, -Tinv[0]);
-  PWM_WR_VAL2(PWMA, 1, -Tinv[1]);
-  PWM_WR_VAL2(PWMA, 2, -Tinv[2]);
-  
-  PWM_WR_VAL3(PWMA, 0, Tinv[0]);
-  PWM_WR_VAL3(PWMA, 1, Tinv[1]);
-  PWM_WR_VAL3(PWMA, 2, Tinv[2]);
-  
-  period_count++;
-  if (period_count > 1000) 
-  {
-    period_count = 0;
-  }
-
-  last[0] = Tinv[0];
-  last[1] = Tinv[1];
-  last[2] = Tinv[2];
-    
-  PWM_WR_STS_RF(PWMA, 0, 1);
-  // start PWMs (set load OK flags and run)
-  PWM_WR_MCTRL_LDOK(PWMA, 1);
-  
-  //GPIO_WR_PCOR(PTB, 1<<22);
-}*/
-
-/******************************************************************************
 @brief   FOC 
 ******************************************************************************/
 void PWMA_RELOAD0_IRQHandler(void)
 {
   Ud = 60;
-  ualbe_cmd.al = 35 * cos(2*pi*10 * (period_count/1000.0));
-  ualbe_cmd.be = 35 * cos(2*pi*10 * (period_count/1000.0) - 0.5*pi);
+  ualbe_cmd.al = 40 * cos(2*pi*40 * (period_count/10000.0));
+  ualbe_cmd.be = 40 * cos(2*pi*40 * (period_count/10000.0) - 0.5*pi);
   
   period_count++;
-  if (period_count > 1000) 
+  if (period_count > 10000) 
   {
     period_count = 0;
   }
 
-  last[0] = Tinv[0];
-  last[1] = Tinv[1];
-  last[2] = Tinv[2];
-  
   /* current sampling and voltage calculation *
 
   /* speed calculation *
   wrCal(&lamdaralbe, &anglek, ualbe, ialbe, Ts);
+  
   /* 3s/2r coordinate transform *
   S3toR2(&iabc, &idq, theta);
 
@@ -143,4 +110,35 @@ void PWMA_RELOAD0_IRQHandler(void)
 void PWMA_RERR_IRQHandler(void)
 {
   GPIO_WR_PSOR(PTB, 1<<22);
+}
+
+void FTM0_IRQHandler(void)
+{
+  //FTM_RD_SC(FTM0);
+  //FTM_WR_SC_TOF(FTM0, 0x00);
+  Ud = 60;
+  ualbe_cmd.al = 40 * cos(2*pi*40 * (period_count/10000.0));
+  ualbe_cmd.be = 40 * cos(2*pi*40 * (period_count/10000.0) - 0.5*pi);
+  
+  period_count++;
+  if (period_count > 10000) 
+  {
+    period_count = 0;
+  }
+  
+  /* SVM modulation */
+  ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv);
+
+  /* register setting */
+  FTM_WR_CnV_VAL(FTM0, 0, (uint32_t)(-Tinv[0]));
+  FTM_WR_CnV_VAL(FTM0, 2, (uint32_t)(-Tinv[1]));
+  FTM_WR_CnV_VAL(FTM0, 4, (uint32_t)(-Tinv[2]));
+  FTM_WR_CnV_VAL(FTM0, 1, (uint32_t)(Tinv[0]));    
+  FTM_WR_CnV_VAL(FTM0, 3, (uint32_t)(Tinv[1]));
+  FTM_WR_CnV_VAL(FTM0, 5, (uint32_t)(Tinv[2]));  
+
+  FTM_WR_SC_TOF(FTM0, 0x00);
+  FTM_WR_PWMLOAD_LDOK(FTM0, TRUE);
+  
+  //GPIO_WR_PCOR(PTB, 1<<22); */
 }

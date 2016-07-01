@@ -1937,6 +1937,9 @@
       <name>$PROJ_DIR$\Includes\ysADC.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\Includes\ysFTM.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\Includes\ysPORT.h</name>
     </file>
     <file>
@@ -2028,6 +2031,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\sources\ysADC.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sources\ysFTM.C</name>
     </file>
     <file>
       <name>$PROJ_DIR$\sources\ysPORT.c</name>
