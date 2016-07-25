@@ -12,7 +12,7 @@
 |----------------------------------------------------------------------------*/
 
 /******************************************************************************
-@brief   Initialization of FTM
+@brief   Initialization of FTM0
 
 @param   N/A
 
@@ -20,9 +20,6 @@
 ******************************************************************************/
 void InitFTM0(void)
 {
-  /* enable the clock for FTM0 */
-  SIM_WR_SCGC6_FTM0(SIM, TRUE);
-  
   /* Disable all channel 0-5 outputs using the OUTPUT MASK feature.
   (please note that the output pins are still driven as GPIO since the
   channel mode is set to FTM channel disabled after RESET) */
@@ -42,10 +39,10 @@ void InitFTM0(void)
   FTM_WR_CONF_BDMMODE(FTM0, 0x03);
        
   /* set modulo register */
-  FTM_WR_MOD(FTM0, (uint32_t)((M1_PWM_MODULO / 2) - 1));
+  FTM_WR_MOD(FTM0, (uint32_t)((FTM0_MODULO / 2) - 1));
   
   /* set initial counting value */
-  FTM_WR_CNTIN(FTM0, (uint32_t) (-M1_PWM_MODULO / 2));
+  FTM_WR_CNTIN(FTM0, (uint32_t) (-FTM0_MODULO / 2));
  
   /* PWM update at counter in maximal value */
   FTM_WR_SYNC_CNTMAX(FTM0, TRUE);
@@ -81,12 +78,12 @@ void InitFTM0(void)
   FTM_WR_DEADTIME_DTVAL(FTM0, 28);
     
   /* initial setting of value registers to 50 % of duty cycle  */
-  FTM_WR_CnV_VAL(FTM0, 0, (uint32_t)(-M1_PWM_MODULO / 4));
-  FTM_WR_CnV_VAL(FTM0, 1, (uint32_t)(M1_PWM_MODULO / 4));
-  FTM_WR_CnV_VAL(FTM0, 2, (uint32_t)(-M1_PWM_MODULO / 4));
-  FTM_WR_CnV_VAL(FTM0, 3, (uint32_t)(M1_PWM_MODULO / 4));    
-  FTM_WR_CnV_VAL(FTM0, 4, (uint32_t)(-M1_PWM_MODULO / 4));
-  FTM_WR_CnV_VAL(FTM0, 5, (uint32_t)(M1_PWM_MODULO / 4));    
+  FTM_WR_CnV_VAL(FTM0, 0, (uint32_t)(-FTM0_MODULO / 4));
+  FTM_WR_CnV_VAL(FTM0, 1, (uint32_t)(FTM0_MODULO / 4));
+  FTM_WR_CnV_VAL(FTM0, 2, (uint32_t)(-FTM0_MODULO / 4));
+  FTM_WR_CnV_VAL(FTM0, 3, (uint32_t)(FTM0_MODULO / 4));    
+  FTM_WR_CnV_VAL(FTM0, 4, (uint32_t)(-FTM0_MODULO / 4));
+  FTM_WR_CnV_VAL(FTM0, 5, (uint32_t)(FTM0_MODULO / 4));    
 
   /* note:
   1. From this moment the output pins are under FTM control. Since the PWM 
@@ -106,7 +103,7 @@ void InitFTM0(void)
   FTM_WR_PWMLOAD_LDOK(FTM0, TRUE);
   
   /* initialization trigger enable */
-  FTM_WR_EXTTRIG_INITTRIGEN(FTM0, TRUE);  // ???????????
+  //FTM_WR_EXTTRIG_INITTRIGEN(FTM0, TRUE);  // ???????????
     
   /* initialize the channels output */
   FTM_WR_MODE_INIT(FTM0, TRUE);                                               
@@ -150,4 +147,52 @@ void InitFTM0(void)
   /* enable & setup interrupts */
   NVIC_EnableIRQ(FTM0_IRQn);                                                  /* enable Interrupt */
   NVIC_SetPriority(FTM0_IRQn, 3);                                             /* set priority to interrupt */
+}
+
+/******************************************************************************
+@brief   Initialization of FTM1¡ª¡ª method M
+
+@param   N/A
+
+@return  N/A
+******************************************************************************/
+void InitFTM1(void)
+{
+  /* Disable all channel 0-1 outputs using the OUTPUT MASK feature. */
+  FTM_WR_OUTMASK(FTM1, 0x03);                     
+    
+  /* disable write protection for certain registers */
+  FTM_WR_MODE_WPDIS(FTM1, TRUE); 
+    
+  /* enable the counter */
+  FTM_WR_MODE_FTMEN(FTM1, TRUE);
+    
+  /* counter running in BDM mode */
+  FTM_WR_CONF_BDMMODE(FTM1, 0x03);
+       
+  /* set modulo register */
+  FTM_WR_MOD(FTM1, (uint32_t)FTM1_MODULO);
+  
+  /* set initial counting value */
+  FTM_WR_CNTIN(FTM1, 0);                                                 
+        
+  FTM_WR_FILTER_CH0FVAL(FTM1, 0x03);
+  FTM_WR_FILTER_CH1FVAL(FTM1, 0x03);
+  
+  /* initial setting of value registers to 0 % of duty cycle  */
+  FTM_WR_CnV_VAL(FTM1, 0, 0);
+  FTM_WR_CnV_VAL(FTM1, 1, 0);
+
+  FTM_WR_CnSC_ELSA(FTM1, 0, TRUE); 
+  FTM_WR_CnSC_ELSA(FTM1, 1, TRUE); 
+  
+  FTM_WR_QDCTRL_PHAFLTREN(FTM1, TRUE); 
+  FTM_WR_QDCTRL_PHBFLTREN(FTM1, TRUE); 
+  FTM_WR_QDCTRL_QUADEN(FTM1, TRUE); 
+    
+  /* initialize the channels output */
+  FTM_WR_MODE_INIT(FTM1, TRUE);                                               
+    
+  /* set system clock as source for FTM1 (CLKS[1:0] = 01) */
+  FTM_WR_SC_CLKS(FTM1, 0x01);
 }

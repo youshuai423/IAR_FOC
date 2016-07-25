@@ -7,15 +7,14 @@
 /******************************************************************************
 | local variable definitions                          
 |----------------------------------------------------------------------------*/
-unsigned int Tinv[3] = {0, 0, 0};  // 
-unsigned int last[3];  // 
+uint16_t Tinv[3] = {0, 0, 0};  // 三相对应PWM寄存器比较值
 
 /******************************************************************************
-| global variable definitions                          
-|----------------------------------------------------------------------------*/
+@brief   Main
 
-/******************************************************************************
-@brief  Main 
+@param   N/A
+
+@return  N/A
 ******************************************************************************/
 void main(void)
 {
@@ -23,21 +22,17 @@ void main(void)
   __disable_irq();
   
   /* init application ports */  
-  InitPORT();  
+  InitPORT(); 
   InitPWM();   
   //InitFTM0();
+  InitFTM1();  // 编码器控制
   InitADC();
-  //Init_PIT();
-  
+  InitPIT();
+ 
   int i = 0;
-  for(i = 0; i < 1000; i++){};
-  ADC_WR_CTRL1_START0(ADC, 1);
-    
-  /* LED for test */ 
-  PORT_WR_PCR_MUX(PORTB, 22, 1); 
-  GPIO_SET_PDDR(PTB, 1<<22);
-  GPIO_WR_PSOR(PTB, 1<<22);
-
+  for(i = 0; i < 1000; i++){};  // 等待ADC模块稳定
+  ADC_WR_CTRL1_START0(ADC, 1); 
+  
   /* enable interrupts  */
   __enable_irq();
 
@@ -46,47 +41,41 @@ void main(void)
 }
 
 /******************************************************************************
-@brief   FOC 
+@brief   PWMA 中断 -- FOC控制
+
+@param   N/A
+
+@return  N/A
 ******************************************************************************/
-void PWMA_RELOAD0_IRQHandler(void)
-{
-  Ud = 60;
-  ualbe_cmd.al = 40 * cos(2*pi*40 * (period_count/10000.0));
-  ualbe_cmd.be = 40 * cos(2*pi*40 * (period_count/10000.0) - 0.5*pi);
+void PWMA_RELOAD0_IRQHandler_TEMP(void)
+{  
+  /* current sampling and voltage calculation */
+
+  /* speed calculation */
+  spdCal_M();
   
-  period_count++;
-  if (period_count > 10000) 
-  {
-    period_count = 0;
-  }
+  /* 3s/2r coordinate transform */
+  S3toR2(iabc, &idq, theta);
 
-  /* current sampling and voltage calculation *
-
-  /* speed calculation *
-  wrCal(&lamdaralbe, &anglek, ualbe, ialbe, Ts);
-  
-  /* 3s/2r coordinate transform *
-  S3toR2(&iabc, &idq, theta);
-
-  /* rotor flux calculation *
+  /* rotor flux calculation */
   lamdar = lamdarCal(lamdar, idq.d);
 
-  /* theta calculation *
-  theta = positonCal(wr, lamdar, idq.q, theta);
+  /* theta calculation */
+  theta = positonCal(speed / 60.0 * np, lamdar, idq.q, theta);
 
-  /* ud* calculation *
-  udq_cmd.d = PImodule(ud_Kp, ud_Ki, idset - idq.d, &ud_Isum, ud_Uplimit, ud_Downlimit);
+  /* ud* calculation */
+  udq_cmd.d = PImodule(ud_Kp, ud_Ki, udq_cmd.d, idq_cmd.d - idq.d, &idlasterr, udlimit_H, udlimit_L);
 
-  /* uq* calculation *
-  if (n < 370)
-    iqset = PImodule(iqset_Kp1, iqset_Ki1, nset - n, &iqset_Isum, iqset_Uplimit, iqset_Downlimit);
+  /* uq* calculation */
+  if (speed < spdthd)
+    idq_cmd.q = PImodule(iq_Kp1, iq_Ki1, idq_cmd.q, spd_cmd - speed, &spdlasterr, iqlimit_H, iqlimit_L);
   else
-    iqset = PImodule(iqset_Kp2, iqset_Ki2, nset - n, &iqset_Isum, iqset_Uplimit, iqset_Downlimit);
-  
-  udq_cmd.q = PImodule(uq_Kp, uq_Ki, iqset - idq.q, &uq_Isum, uq_Uplimit, uq_Downlimit);
+    idq_cmd.q = PImodule(iq_Kp2, iq_Ki2, idq_cmd.q, spd_cmd - speed, &spdlasterr, iqlimit_H, iqlimit_L);
+ 
+  udq_cmd.q = PImodule(uq_Kp, uq_Ki, udq_cmd.q, idq_cmd.q - idq.q, &iqlasterr, uqlimit_H, uqlimit_L);
 
-  /* 2r/2s coordinate transform *
-  R2toS2(&udq_cmd, &ualbe_cmd, theta); */
+  /* 2r/2s coordinate transform */
+  R2toS2(udq_cmd, &ualbe_cmd, theta); 
 
   /* SVM modulation */
   ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv);
@@ -103,42 +92,61 @@ void PWMA_RELOAD0_IRQHandler(void)
   PWM_WR_STS_RF(PWMA, 0, 1);
   
   PWM_WR_MCTRL_LDOK(PWMA, 1);  // start PWMs (set load OK flags and run)
-  
-  //GPIO_WR_PCOR(PTB, 1<<22); */
+
 }
 
+/******************************************************************************
+@brief   PWMA 中断 -- V/f开环控制
+
+@param   N/A
+
+@return  N/A
+******************************************************************************/
+void PWMA_RELOAD0_IRQHandler(void)
+{   
+    /* SVM开环计算 */
+    positionSVM(Tinv);
+    
+    /* 比较寄存器配置 */
+    PWM_WR_VAL2(PWMA, 0, -Tinv[0]);
+    PWM_WR_VAL2(PWMA, 1, -Tinv[1]);
+    PWM_WR_VAL2(PWMA, 2, -Tinv[2]);
+    
+    PWM_WR_VAL3(PWMA, 0, Tinv[0]);
+    PWM_WR_VAL3(PWMA, 1, Tinv[1]);
+    PWM_WR_VAL3(PWMA, 2, Tinv[2]);
+    
+    PWM_WR_STS_RF(PWMA, 0, TRUE);  // clear reload flag
+    PWM_WR_MCTRL_LDOK(PWMA, TRUE);  // start PWMs (set load OK flags and run)
+ }
+
+/******************************************************************************
+@brief   PWMA 错误中断
+
+@param   N/A
+
+@return  N/A
+******************************************************************************/
 void PWMA_RERR_IRQHandler(void)
 {
   GPIO_WR_PSOR(PTB, 1<<22);
 }
 
-void FTM0_IRQHandler(void)
+/******************************************************************************
+@brief   PIT 中断 -- 计算转速及转速给定值
+
+@param   N/A
+
+@return  N/A
+******************************************************************************/
+void PIT0_IRQHandler(void)
 {
-  //FTM_RD_SC(FTM0);
-  //FTM_WR_SC_TOF(FTM0, 0x00);
-  Ud = 60;
-  ualbe_cmd.al = 40 * cos(2*pi*40 * (period_count/10000.0));
-  ualbe_cmd.be = 40 * cos(2*pi*40 * (period_count/10000.0) - 0.5*pi);
+  PIT_WR_TFLG_TIF(PIT, 0, 1);
   
-  period_count++;
-  if (period_count > 10000) 
+  speed = spdCal_M();  // 转速计算
+  
+  if (spd_cmd < spd_req)
   {
-    period_count = 0;
+    spd_cmd = RAMP(spdramp, spd_cmd, 0.1, spdlimit_H, spdlimit_L);  // 转速给定值计算
   }
-  
-  /* SVM modulation */
-  ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv);
-
-  /* register setting */
-  FTM_WR_CnV_VAL(FTM0, 0, (uint32_t)(-Tinv[0]));
-  FTM_WR_CnV_VAL(FTM0, 2, (uint32_t)(-Tinv[1]));
-  FTM_WR_CnV_VAL(FTM0, 4, (uint32_t)(-Tinv[2]));
-  FTM_WR_CnV_VAL(FTM0, 1, (uint32_t)(Tinv[0]));    
-  FTM_WR_CnV_VAL(FTM0, 3, (uint32_t)(Tinv[1]));
-  FTM_WR_CnV_VAL(FTM0, 5, (uint32_t)(Tinv[2]));  
-
-  FTM_WR_SC_TOF(FTM0, 0x00);
-  FTM_WR_PWMLOAD_LDOK(FTM0, TRUE);
-  
-  //GPIO_WR_PCOR(PTB, 1<<22); */
 }
