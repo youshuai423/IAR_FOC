@@ -6,208 +6,100 @@
   <configuration>
     <name>Debug</name>
     <outputs>
-      <file>$PROJ_DIR$\Includes\ysPIT.h</file>
-      <file>$PROJ_DIR$\Includes\ysPWM.h</file>
-      <file>$PROJ_DIR$\Includes\ysPORT.h</file>
-      <file>$PROJ_DIR$\Includes\ysFTM.h</file>
-      <file>$PROJ_DIR$\Includes\imcontrol.h</file>
-      <file>$PROJ_DIR$\Includes\main.h</file>
-      <file>$PROJ_DIR$\Includes\ysADC.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
-      <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
-      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\math.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysPWM.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\imcontrol.o</file>
-      <file>$PROJ_DIR$\sources\ysPWM.c</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysFTM.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\startup.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Exe\c.out</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysPORT.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysPWM.__cstat.et</file>
       <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
       <file>$PROJ_DIR$\Debug\Obj\ysPIT.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\math.h</file>
+      <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysPWM.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\imcontrol.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysFTM.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+      <file>$PROJ_DIR$\Debug\Exe\c.out</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
       <file>$PROJ_DIR$\Debug\Obj\system_MKV46F15.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysPORT.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\system_MKV46F15.__cstat.et</file>
-      <file>$PROJ_DIR$\sdk\cmsis\Include\core_cmSimd.h</file>
-      <file>$PROJ_DIR$\sources\main.c</file>
-      <file>$PROJ_DIR$\sources\ysFTM.C</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysPORT.pbi</file>
+      <file>$PROJ_DIR$\sdk\cmsis\Include\core_cm4.h</file>
+      <file>$PROJ_DIR$\sdk\cmsis\Include\core_cmInstr.h</file>
       <file>$PROJ_DIR$\sdk\devices\startup.h</file>
-      <file>$PROJ_DIR$\sdk\devices\MKV46F15\startup\system_MKV46F15.c</file>
-      <file>$PROJ_DIR$\sdk\devices\fsl_device_registers.h</file>
       <file>$PROJ_DIR$\sdk\devices\MKV46F15\include\MKV46F15.h</file>
+      <file>$PROJ_DIR$\sdk\cmsis\Include\core_cmFunc.h</file>
       <file>$PROJ_DIR$\sdk\devices\MKV46F15\startup\system_MKV46F15.h</file>
       <file>$PROJ_DIR$\sources\imcontrol.c</file>
-      <file>$PROJ_DIR$\sdk\cmsis\Include\core_cm4.h</file>
-      <file>$PROJ_DIR$\sdk\devices\MKV46F15\startup\iar\startup_MKV46F15.s</file>
-      <file>$PROJ_DIR$\sources\ysADC.c</file>
+      <file>$PROJ_DIR$\sources\ysFTM.C</file>
       <file>$PROJ_DIR$\sources\ysPIT.c</file>
       <file>$PROJ_DIR$\sources\ysPORT.c</file>
-      <file>$PROJ_DIR$\sdk\cmsis\Include\core_cmFunc.h</file>
+      <file>$PROJ_DIR$\sources\ysPWM.c</file>
+      <file>$TOOLKIT_DIR$\inc\c\cmsis_iar.h</file>
+      <file>$PROJ_DIR$\sources\main.c</file>
+      <file>$PROJ_DIR$\sdk\cmsis\Include\core_cmSimd.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysPWM.__cstat.et</file>
+      <file>$PROJ_DIR$\sdk\devices\MKV46F15\startup\system_MKV46F15.c</file>
       <file>$PROJ_DIR$\sdk\devices\startup.c</file>
-      <file>$PROJ_DIR$\sdk\cmsis\Include\core_cmInstr.h</file>
+      <file>$PROJ_DIR$\sources\ysADC.c</file>
+      <file>$PROJ_DIR$\sdk\devices\MKV46F15\include\MKV46F15_features.h</file>
       <file>$PROJ_DIR$\sdk\devices\MKV46F15\include\fsl_bitaccess.h</file>
       <file>$PROJ_DIR$\sdk\devices\MKV46F15\include\MKV46F15_extension.h</file>
-      <file>$PROJ_DIR$\sdk\devices\MKV46F15\include\MKV46F15_features.h</file>
-      <file>$PROJ_DIR$\sdk\devices\MKV46F15\linker\iar\MKV46F256xxx15_flash.icf</file>
-      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\system_MKV46F15.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
-      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysFTM.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\imcontrol.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-      <file>$TOOLKIT_DIR$\inc\c\ymath.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\startup.pbi</file>
-      <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
-      <file>$PROJ_DIR$\Debug\Obj\startup.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysADC.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysPIT.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysPIT.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\imcontrol.__cstat.et</file>
-      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysPWM.pbi</file>
-      <file>$PROJ_DIR$\Debug\Obj\startup_MKV46F15.o</file>
+      <file>$PROJ_DIR$\sdk\devices\fsl_device_registers.h</file>
+      <file>$PROJ_DIR$\sdk\devices\MKV46F15\startup\iar\startup_MKV46F15.s</file>
+      <file>$PROJ_DIR$\Includes\imcontrol.h</file>
+      <file>$PROJ_DIR$\Includes\ysADC.h</file>
+      <file>$PROJ_DIR$\Includes\ysFTM.h</file>
+      <file>$PROJ_DIR$\Includes\ysPIT.h</file>
+      <file>$PROJ_DIR$\Includes\ysPORT.h</file>
+      <file>$PROJ_DIR$\Includes\ysPWM.h</file>
+      <file>$PROJ_DIR$\Includes\main.h</file>
       <file>$TOOLKIT_DIR$\inc\c\DLib_Threads.h</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysADC.o</file>
-      <file>$PROJ_DIR$\Debug\Obj\IMFOC.pbd</file>
       <file>$TOOLKIT_DIR$\inc\c\xtgmath.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup_MKV46F15.o</file>
       <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
       <file>$PROJ_DIR$\Debug\Obj\ysADC.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysFTM.__cstat.et</file>
-      <file>$PROJ_DIR$\Debug\Obj\ysPORT.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysPWM.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysADC.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\IMFOC.pbd</file>
       <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysPORT.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysFTM.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\system_MKV46F15.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\xencoding_limits.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+      <file>$PROJ_DIR$\Debug\Obj\system_MKV46F15.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysADC.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysPORT.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysPIT.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup.pbi</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysPIT.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\imcontrol.pbi</file>
+      <file>$TOOLKIT_DIR$\lib\dl7M_tln.a</file>
+      <file>$PROJ_DIR$\Debug\Obj\startup.o</file>
+      <file>$PROJ_DIR$\Debug\Obj\imcontrol.__cstat.et</file>
+      <file>$PROJ_DIR$\Debug\Obj\ysFTM.pbi</file>
+      <file>$TOOLKIT_DIR$\inc\c\intrinsics.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\stdlib.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\ymath.h</file>
+      <file>$PROJ_DIR$\sdk\devices\MKV46F15\linker\iar\MKV46F256xxx15_flash.icf</file>
+      <file>$PROJ_DIR$\Debug\Obj\main.o</file>
+      <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
+      <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
     </outputs>
     <file>
       <name>[ROOT_NODE]</name>
       <outputs>
         <tool>
           <name>ILINK</name>
-          <file> 17</file>
+          <file> 10</file>
         </tool>
       </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\sources\ysPWM.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 67</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 11</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 21</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 53 7 57 69 50 29 47 36 35 27 34 48 38 25 45 20 1 15 18 43 66 46 9</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 1 34 35 7 57 50 25 15 18 53 69 38 45 20 66 43 29 36 47 46 27 9 48</file>
-        </tool>
-      </inputs>
     </file>
     <file>
       <name>$PROJ_DIR$\Debug\Exe\c.out</name>
       <inputs>
         <tool>
           <name>ILINK</name>
-          <file> 49 12 52 61 68 24 70 14 23 26 11 8 22 77 60</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\sources\main.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 56</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 52</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 73</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 72 3 48 46 50 34 6 4 35 38 25 45 57 10 2 1 0 47 7 36 53 69 29 66 9 5 15 18 43 20 27 58</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 5 34 35 7 57 50 25 15 18 53 69 38 45 20 66 43 29 36 47 46 27 9 48 2 6 1 3 0 4 10 58 72</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\sources\ysFTM.C</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 54</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 14</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 75</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 53 34 7 57 69 50 29 47 36 35 27 48 38 25 45 20 3 15 18 43 66 46 9</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 3 34 35 7 57 50 25 15 18 53 69 38 45 20 66 43 29 36 47 46 27 9 48</file>
-        </tool>
-      </inputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\sdk\devices\MKV46F15\startup\system_MKV46F15.c</name>
-      <outputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 51</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 24</file>
-        </tool>
-        <tool>
-          <name>__cstat</name>
-          <file> 28</file>
-        </tool>
-      </outputs>
-      <inputs>
-        <tool>
-          <name>BICOMP</name>
-          <file> 35 25 38 29 7 57 53 69 50 48 27 34 15 18 47 36 45 20 43 66 46 9</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
-          <file> 7 57 50 25 15 18 53 69 34 35 38 45 20 66 43 29 36 47 46 27 9 48</file>
+          <file> 74 6 75 68 47 13 51 8 1 62 5 3 0 53 67</file>
         </tool>
       </inputs>
     </file>
@@ -216,61 +108,52 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 55</file>
+          <file> 66</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 12</file>
+          <file> 6</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 65</file>
+          <file> 69</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 50 3 7 57 43 20 34 47 36 18 10 1 35 48 38 15 27 53 58 4 25 69 45 29 66 46 9 72</file>
+          <file> 77 33 43 59 19 26 2 18 15 12 36 40 35 4 20 11 72 58 73 38 76 45 16 28 71 34 9 46</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 4 34 35 7 57 50 25 15 18 53 69 38 45 20 66 43 29 36 47 46 27 9 48 10 58 72 3 1</file>
+          <file> 38 36 18 4 59 77 76 11 12 58 45 15 16 26 71 19 28 20 35 34 72 9 33 2 73 46 40 43</file>
         </tool>
       </inputs>
     </file>
     <file>
-      <name>$PROJ_DIR$\sdk\devices\MKV46F15\startup\iar\startup_MKV46F15.s</name>
-      <outputs>
-        <tool>
-          <name>AARM</name>
-          <file> 68</file>
-        </tool>
-      </outputs>
-    </file>
-    <file>
-      <name>$PROJ_DIR$\sources\ysADC.c</name>
+      <name>$PROJ_DIR$\sources\ysFTM.C</name>
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 62</file>
-        </tool>
-        <tool>
-          <name>ICCARM</name>
           <file> 70</file>
         </tool>
         <tool>
+          <name>ICCARM</name>
+          <file> 8</file>
+        </tool>
+        <tool>
           <name>__cstat</name>
-          <file> 74</file>
+          <file> 55</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 36 53 47 57 69 50 29 7 35 27 34 48 38 25 45 20 6 15 18 43 66 46 9</file>
+          <file> 58 36 4 59 45 77 28 35 20 18 72 33 15 76 16 26 40 11 12 19 71 34 9</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 6 34 35 7 57 50 25 15 18 53 69 38 45 20 66 43 29 36 47 46 27 9 48</file>
+          <file> 40 36 18 4 59 77 76 11 12 58 45 15 16 26 71 19 28 20 35 34 72 9 33</file>
         </tool>
       </inputs>
     </file>
@@ -283,21 +166,21 @@
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 23</file>
+          <file> 1</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 64</file>
+          <file> 65</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 53 34 48 57 69 50 29 7 35 38 27 47 36 25 45 20 0 15 18 43 66 46 9</file>
+          <file> 58 36 33 59 45 77 28 4 18 15 72 35 20 76 16 26 41 11 12 19 71 34 9</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 0 34 35 7 57 50 25 15 18 53 69 38 45 20 66 43 29 36 47 46 27 9 48</file>
+          <file> 41 36 18 4 59 77 76 11 12 58 45 15 16 26 71 19 28 20 35 34 72 9 33</file>
         </tool>
       </inputs>
     </file>
@@ -306,25 +189,106 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 19</file>
+          <file> 14</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 26</file>
+          <file> 62</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 76</file>
+          <file> 54</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 47 53 36 57 69 50 29 7 35 27 34 48 38 25 45 20 2 15 18 43 66 46 9</file>
+          <file> 35 58 20 59 45 77 28 4 18 72 36 33 15 76 16 26 42 11 12 19 71 34 9</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 2 34 35 7 57 50 25 15 18 53 69 38 45 20 66 43 29 36 47 46 27 9 48</file>
+          <file> 42 36 18 4 59 77 76 11 12 58 45 15 16 26 71 19 28 20 35 34 72 9 33</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sources\ysPWM.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 50</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 5</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 29</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 58 4 59 45 77 28 35 20 18 72 36 33 15 76 16 26 43 11 12 19 71 34 9</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 43 36 18 4 59 77 76 11 12 58 45 15 16 26 71 19 28 20 35 34 72 9 33</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sources\main.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 56</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 75</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 48</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 46 41 36 77 42 4 43 35 20 59 58 45 28 71 9 2 39 40 38 18 33 15 76 16 34 44 11 12 19 26 72 73</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 44 36 18 4 59 77 76 11 12 58 45 15 16 26 71 19 28 20 35 34 72 9 33 42 39 43 40 41 38 2 73 46</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sdk\devices\MKV46F15\startup\system_MKV46F15.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 57</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 13</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 60</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 18 76 15 28 4 59 58 45 77 33 72 36 11 12 35 20 16 26 19 71 34 9</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 4 59 77 76 11 12 58 45 36 18 15 16 26 71 19 28 20 35 34 72 9 33</file>
         </tool>
       </inputs>
     </file>
@@ -333,27 +297,63 @@
       <outputs>
         <tool>
           <name>BICOMP</name>
-          <file> 59</file>
+          <file> 64</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 61</file>
+          <file> 68</file>
         </tool>
         <tool>
           <name>__cstat</name>
-          <file> 16</file>
+          <file> 7</file>
         </tool>
       </outputs>
       <inputs>
         <tool>
           <name>BICOMP</name>
-          <file> 38 53 35 57 69 50 29 7 48 27 34 47 36 25 45 20 32 15 18 43 66 46 9</file>
+          <file> 15 58 18 59 45 77 28 4 33 72 36 35 20 76 16 26 17 11 12 19 71 34 9</file>
         </tool>
         <tool>
           <name>ICCARM</name>
-          <file> 32 34 35 7 57 50 25 15 18 53 69 38 45 20 66 43 29 36 47 46 27 9 48</file>
+          <file> 17 36 18 4 59 77 76 11 12 58 45 15 16 26 71 19 28 20 35 34 72 9 33</file>
         </tool>
       </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sources\ysADC.c</name>
+      <outputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 61</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 51</file>
+        </tool>
+        <tool>
+          <name>__cstat</name>
+          <file> 49</file>
+        </tool>
+      </outputs>
+      <inputs>
+        <tool>
+          <name>BICOMP</name>
+          <file> 20 58 35 59 45 77 28 4 18 72 36 33 15 76 16 26 39 11 12 19 71 34 9</file>
+        </tool>
+        <tool>
+          <name>ICCARM</name>
+          <file> 39 36 18 4 59 77 76 11 12 58 45 15 16 26 71 19 28 20 35 34 72 9 33</file>
+        </tool>
+      </inputs>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sdk\devices\MKV46F15\startup\iar\startup_MKV46F15.s</name>
+      <outputs>
+        <tool>
+          <name>AARM</name>
+          <file> 47</file>
+        </tool>
+      </outputs>
     </file>
   </configuration>
   <configuration>

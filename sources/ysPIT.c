@@ -15,7 +15,7 @@ void InitPIT(void)
   /* Init PIT */
   PIT_WR_MCR_MDIS(PIT, 0);
   PIT_WR_MCR_FRZ(PIT, 1);
-  PIT_WR_LDVAL(PIT, 0, PIT_MODULO);  // 定时1ms
+  PIT_WR_LDVAL(PIT, 0, PIT_MODULO);  // 定时100ms
   PIT_WR_TCTRL_TIE(PIT, 0, 1);
   PIT_WR_TCTRL_TEN(PIT, 0, 1);
   

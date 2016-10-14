@@ -10,7 +10,6 @@
 uint16_t Tinv[3] = {0, 0, 0};  // 三相对应PWM寄存器比较值
 
 int count = 0;
-#define spdramp 50
 
 /******************************************************************************
 @brief   Main
@@ -129,16 +128,10 @@ void PWMA_RELOAD0_IRQHandler(void)
     
         /* PWM DA */
     //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((IU - 1500)/1000.0)));
-    //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * (sin(theta) + 1) / 2.0));
-    FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * count / 1000));
-    count++;
-    if (count >= 1000)
-    {
-       count -= 1000;
-       
-    }
+    FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * (sin(theta) + 1) / 2.0));
+
     FTM_WR_SYNC_SWSYNC(FTM3, TRUE);  
-    GPIO_WR_PTOR(PTB, 1<<22);
+    
  }
 
 /******************************************************************************
@@ -164,10 +157,11 @@ void PIT0_IRQHandler(void)
 {
   PIT_WR_TFLG_TIF(PIT, 0, 1);
   
-  speed = spdCal_M();  // 转速计算
+  //speed = spdCal_M();  // 转速计算
   
   if (spd_cmd < spd_req)
   {
     spd_cmd = RAMP(spdramp, spd_cmd, 0.1, spdlimit_H, spdlimit_L);  // 转速给定值计算
   }
+  GPIO_WR_PTOR(PTB, 1<<22);
 }

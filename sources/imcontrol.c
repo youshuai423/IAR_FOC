@@ -40,7 +40,7 @@ PHASE_DQ udq_cmd = {0, 0};
 PHASE_DQ idq_cmd = {0, 0};
   // 转速
 double spd_cmd = 0;  // 转速给定
-double spd_req = 600;  // 转速设定
+double spd_req = 450;  // 转速设定
 
 /* PI 变量 */
 double idlasterr = 0;
@@ -170,9 +170,9 @@ void positionSVM(uint16_t *Tinv)
     Dm = u_cmd / Ud * sin(1/3.0 * pi - angle);
     Dn = u_cmd / Ud * sin(angle);
     D0 = (1 - Dm - Dn) / 2.0;
-    Dm = roundn(Dm, 8);
-    Dn = roundn(Dn, 8);
-    D0 = roundn(D0, 8);
+    Dm = roundn(Dm, digit);
+    Dn = roundn(Dn, digit);
+    D0 = roundn(D0, digit);
     if (D0 < 0) D0 = 0;
   
     /* 三相PWM比较值计算 */
@@ -516,11 +516,11 @@ double RAMP(double ramp, double initial, double increment, double Hlimit, double
 
 @return  舍弃指定位数后的值
 ******************************************************************************/
-double roundn(double input, int digit)
+double roundn(double input, int _digit)
 {
   double temp;
-  temp = input * pow(10, digit);
+  temp = input * _digit;
   temp = floor(temp);
-  temp = temp / (pow(10, digit) * 1.0);
+  temp = temp / _digit;
   return temp;
 }

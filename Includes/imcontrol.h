@@ -49,18 +49,19 @@
 #define uqlimit_L -60
 
 /* speed ramp */
-#define spdramp 50  // 斜率
-#define spdlimit_H 1000  // 转速上限
+#define spdramp 30  // 斜率
+#define spdlimit_H 450  // 转速上限
 #define spdlimit_L 0  // 转速下限
 
 /* V/spd curve */
-#define VSpdramp 0.024  // 斜率
+#define VSpdramp 0.0287  // 斜率
 #define Voltlimit_H 40  // 电压上限
 #define Voltlimit_L 5  // 电压下限
 
 /* auxiliary */
 #define pi 3.1415926
 #define Z 64  // 光电码盘线数
+#define digit 1e5  // roundn参数
 
 /******************************************************************************
 | types
@@ -122,7 +123,6 @@ extern double spdlasterr;
 /******************************************************************************
 | local functions prototypes
 |----------------------------------------------------------------------------*/
-double roundn(double input, int digit);
 
 /******************************************************************************
 | exported functions
@@ -157,4 +157,4 @@ extern double Integrator(double paramin, double sum, double ts);
 
 /* Auxiliary Function */
 extern double RAMP(double ramp, double initial, double increment, double Hlimit, double Llimit);
-extern double roundn(double input, int digit);
+extern double roundn(double input, int _digit);
