@@ -54,7 +54,7 @@
 #define spdlimit_L 0  // 转速下限
 
 /* V/spd curve */
-#define VSpdramp 0.02875  // 斜率
+#define VSpdramp 0.024  // 斜率
 #define Voltlimit_H 40  // 电压上限
 #define Voltlimit_L 5  // 电压下限
 

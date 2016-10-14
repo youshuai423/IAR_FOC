@@ -16,7 +16,7 @@ uint16_t sector = 0;  // SVM扇区
 |----------------------------------------------------------------------------*/
 /* 观测值 */
   // 电压
-double Ud = 0;
+double Ud = 40;
 PHASE_ABC uabc = {0, 0, 0};
 PHASE_ALBE ualbe = {0, 0};
 PHASE_DQ udq = {0, 0};
@@ -33,14 +33,14 @@ double speed = 0;
 
 /* 给定值 */
   // 电压
-double u_cmd = 0;
+double u_cmd = 0;  // 线电压幅值
 PHASE_ALBE ualbe_cmd = {0, 0};
 PHASE_DQ udq_cmd = {0, 0};
   // 电流
 PHASE_DQ idq_cmd = {0, 0};
   // 转速
 double spd_cmd = 0;  // 转速给定
-double spd_req = 0;  // 转速设定
+double spd_req = 600;  // 转速设定
 
 /* PI 变量 */
 double idlasterr = 0;
@@ -62,8 +62,6 @@ double spdlasterr = 0;
 ******************************************************************************/
 void S3toR2(PHASE_ABC abc, PHASE_DQ *dq, double theta)
 {
-  //dq->d = sqrt(2.0/3.0) * (cos(theta) * abc->a + cos(theta - 2.0/3.0*pi) * abc->b + cos(theta + 2.0/3.0*pi) * abc->c);
-  //dq->q = -sqrt(2.0/3.0) * (sin(theta) * abc->a + sin(theta - 2.0/3.0*pi) * abc->b + sin(theta + 2.0/3.0*pi) * abc->c);
   dq->d = sqrt(2.0) * (cos(theta - 1.0/6.0*pi) * abc.a + sin(theta) * abc.b);
   dq->q = -sqrt(2.0) * (sin(theta - 1.0/6.0*pi) * abc.a - cos(theta) * abc.b);
 }
@@ -78,8 +76,6 @@ void S3toR2(PHASE_ABC abc, PHASE_DQ *dq, double theta)
 ******************************************************************************/
 void S3toS2(PHASE_ABC abc, PHASE_ALBE *albe)
 {
-  //albe->al = sqrt(2.0/3.0) * (abc->a - 0.5 * abc->b - 0.5 * abc->c);
-  //albe->be = sqrt(2.0/3.0) * (sqrt(3)/2.0 * abc->b - sqrt(3)/2.0 * abc->c);
   albe->al = sqrt(3.0/2.0) * abc.a;
   albe->be = 1.0/sqrt(2) * abc.a + sqrt(2) * abc.b;
 }
@@ -164,8 +160,9 @@ void positionSVM(uint16_t *Tinv)
     u_cmd = RAMP(VSpdramp, 0, spd_cmd, Voltlimit_H, Voltlimit_L);
   
     /* 扇区及夹角计算 */
-    theta += 2 * pi * (spd_cmd / 30.0) * 0.0001;
+    theta += 2 * pi * (spd_cmd / 30.0) * 0.0001; 
     if (theta > 2 * pi)  theta -= 2*pi;
+    
     angle = fmod(theta,1/3.0 * pi);
     sector = (int)floor( theta / (1/3.0 * pi)) + 1;
     

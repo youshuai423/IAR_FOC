@@ -37,18 +37,10 @@ void InitPWM(void)
   PWM_WR_VAL1(PWMA, 0, (uint16_t)((M1_PWM_MODULO/2)-1));
   PWM_WR_VAL1(PWMA, 1, (uint16_t)((M1_PWM_MODULO/2)-1));
   PWM_WR_VAL1(PWMA, 2, (uint16_t)((M1_PWM_MODULO/2)-1));
-    
-  /*PWM_WR_VAL2(PWMA, 0, (uint16_t)(-(M1_PWM_MODULO/4)));
-  PWM_WR_VAL2(PWMA, 1, (uint16_t)(-(M1_PWM_MODULO/4)));
-  PWM_WR_VAL2(PWMA, 2, (uint16_t)(-(M1_PWM_MODULO/4)));
-    
-  PWM_WR_VAL3(PWMA, 0, (uint16_t)((M1_PWM_MODULO/4)));
-  PWM_WR_VAL3(PWMA, 1, (uint16_t)((M1_PWM_MODULO/4)));
-  PWM_WR_VAL3(PWMA, 2, (uint16_t)((M1_PWM_MODULO/4))); */
   
   PWM_WR_VAL2(PWMA, 0, (uint16_t)(-M1_PWM_MODULO/2));
-  PWM_WR_VAL2(PWMA, 1, (uint16_t)(-M1_PWM_MODULO));
-  PWM_WR_VAL2(PWMA, 2, (uint16_t)(-M1_PWM_MODULO));
+  PWM_WR_VAL2(PWMA, 1, (uint16_t)(-M1_PWM_MODULO)/2);
+  PWM_WR_VAL2(PWMA, 2, (uint16_t)(-M1_PWM_MODULO/2));
     
   PWM_WR_VAL3(PWMA, 0, (uint16_t)(M1_PWM_MODULO));
   PWM_WR_VAL3(PWMA, 1, (uint16_t)(M1_PWM_MODULO));
@@ -61,20 +53,15 @@ void InitPWM(void)
   PWM_WR_VAL5(PWMA, 0, (uint16_t)(0)); 
   PWM_WR_VAL5(PWMA, 1, (uint16_t)(0));
   PWM_WR_VAL5(PWMA, 2, (uint16_t)(0));
-    
-  /* PWMA module 0 trigger on VAL4 enabled for ADC synchronization */
-  //PWM_WR_TCTRL_OUT_TRIG_EN(PWMA, 0, (1<<4));
 
   /* recomended value of deadtime for FNB41560 on HVP-MC3PH is 1.5us
      DTCNT0,1 = T_dead * f_fpc = 1.5us * 74MHz = 111 */
   PWM_WR_DTCNT0(PWMA, 0, M1_PWM_DT);
   PWM_WR_DTCNT0(PWMA, 1, M1_PWM_DT);
   PWM_WR_DTCNT0(PWMA, 2, M1_PWM_DT);
-  PWM_WR_DTCNT0(PWMA, 3, M1_PWM_DT);
   PWM_WR_DTCNT1(PWMA, 0, M1_PWM_DT);
   PWM_WR_DTCNT1(PWMA, 1, M1_PWM_DT);
   PWM_WR_DTCNT1(PWMA, 2, M1_PWM_DT);
-  PWM_WR_DTCNT1(PWMA, 3, M1_PWM_DT);
       
   /* channels A and B disabled when fault 0 occurs */
   PWM_WR_DISMAP_DIS0A(PWMA, 0, 0, 0x0);

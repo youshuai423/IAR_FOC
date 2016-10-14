@@ -2,6 +2,26 @@
 
 <userOverrides>
   <override>
+    <path>C:\Users\yoush\Desktop\Code\IAR_FOC\Includes\imcontrol.h</path>
+    <encoding>System</encoding>
+  </override>
+  <override>
+    <path>C:\Users\yoush\Desktop\Code\IAR_FOC\Includes\ysPWM.h</path>
+    <encoding>System</encoding>
+  </override>
+  <override>
+    <path>C:\Users\yoush\Desktop\Code\IAR_FOC\sources\imcontrol.c</path>
+    <encoding>System</encoding>
+  </override>
+  <override>
+    <path>C:\Users\yoush\Desktop\Code\IAR_FOC\sources\main.c</path>
+    <encoding>System</encoding>
+  </override>
+  <override>
+    <path>C:\Users\yoush\Desktop\Code\IAR_FOC\sources\ysFTM.C</path>
+    <encoding>System</encoding>
+  </override>
+  <override>
     <path>C:\Users\yoush\Desktop\IAR_FOC\Includes\main.h</path>
     <encoding>System</encoding>
   </override>

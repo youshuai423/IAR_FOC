@@ -58,6 +58,12 @@ void InitPORT(void)
     PORT_WR_PCR_MUX(PORTA, 12, 7);  // set port
     PORT_WR_PCR_MUX(PORTA, 13, 7);  
     
+    /* FTM3 port configuration */
+    SIM_WR_SCGC6_FTM3(SIM, 1);
+    
+    PORT_WR_PCR_MUX(PORTC, 11, 3);  // set port
+    PORT_WR_PCR_MUX(PORTC, 10, 3);  // set port
+    
     /* PIT port configuration */
     SIM_WR_SCGC6_PIT(SIM, 1);  // enable clock
     

@@ -40,12 +40,11 @@ void InitADC(void)
   /* parallel scans done independently */
   ADC_WR_CTRL2_SIMULT(ADC, 0);
   
-  ADC_WR_CLIST1_SAMPLE0(ADC, 0);
-  ADC_WR_CLIST1_SAMPLE1(ADC, 6);
-  ADC_WR_CLIST1_SAMPLE2(ADC, 7);
+  ADC_WR_CLIST1_SAMPLE0(ADC, 0);  // Udc: 0通道 -- ADC_CH0
+  ADC_WR_CLIST1_SAMPLE1(ADC, 6);  // Ia:  1              6
+  ADC_WR_CLIST1_SAMPLE2(ADC, 7);  // Ic:  2              7
 
-  /* enable samples first two samples on both ADCA and ADCB */
-  //ADC_WR_SDIS(ADC, 0xFCFC);
+  /* 使能采样通道0 1 2 */
   ADC_WR_SDIS(ADC, 0xFFF8);
         
   /* power-up ADCA and ADCB */
@@ -56,6 +55,7 @@ void InitADC(void)
   //ADC_WR_GC1_GAIN1(ADC, 2);
   //ADC_WR_GC1_GAIN2(ADC, 2);
   
+  /* 设置转换时钟频率 */
   ADC_WR_PWR2_SPEEDA(ADC, 3);
   
   /* enable & setup interrupt from ADC */
