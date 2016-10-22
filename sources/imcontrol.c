@@ -160,7 +160,8 @@ void positionSVM(uint16_t *Tinv)
     u_cmd = RAMP(VSpdramp, 0, spd_cmd, Voltlimit_H, Voltlimit_L);
   
     /* ÉÈÇø¼°¼Ð½Ç¼ÆËã */
-    theta += 2 * pi * (spd_cmd / 30.0) * 0.0001; 
+    //theta += 2 * pi * (spd_cmd / 30.0) * 0.0001;  ==========================================================
+    theta += 2 * pi * (spd_cmd / 30.0) * 0.0002; 
     if (theta > 2 * pi)  theta -= 2*pi;
     
     angle = fmod(theta,1/3.0 * pi);

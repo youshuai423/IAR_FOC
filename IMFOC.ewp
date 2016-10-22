@@ -738,7 +738,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>C:\Users\yoush\Desktop\Code\IAR_FOC\sdk\devices\MKV46F15\linker\iar\MKV46F256xxx15_flash.icf</state>
+          <state>C:\Users\itsys\Desktop\Code\IAR_FOC\sdk\devices\MKV46F15\linker\iar\MKV46F256xxx15_flash.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>

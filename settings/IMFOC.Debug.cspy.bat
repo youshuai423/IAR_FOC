@@ -25,7 +25,7 @@ if not "%1" == "" goto debugFile
 
 @echo on 
 
-"D:\SYSSoft\IAR\common\bin\cspybat" -f "C:\Users\yoush\Desktop\Code\IAR_FOC\settings\IMFOC.Debug.general.xcl" --backend -f "C:\Users\yoush\Desktop\Code\IAR_FOC\settings\IMFOC.Debug.driver.xcl" 
+"D:\SYSSoft\IAR\common\bin\cspybat" -f "C:\Users\itsys\Desktop\Code\IAR_FOC\settings\IMFOC.Debug.general.xcl" --backend -f "C:\Users\itsys\Desktop\Code\IAR_FOC\settings\IMFOC.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"D:\SYSSoft\IAR\common\bin\cspybat" -f "C:\Users\yoush\Desktop\Code\IAR_FOC\settings\IMFOC.Debug.general.xcl" "--debug_file=%1" --backend -f "C:\Users\yoush\Desktop\Code\IAR_FOC\settings\IMFOC.Debug.driver.xcl" 
+"D:\SYSSoft\IAR\common\bin\cspybat" -f "C:\Users\itsys\Desktop\Code\IAR_FOC\settings\IMFOC.Debug.general.xcl" "--debug_file=%1" --backend -f "C:\Users\itsys\Desktop\Code\IAR_FOC\settings\IMFOC.Debug.driver.xcl" 
 
 @echo off 
 :end

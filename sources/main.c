@@ -23,11 +23,11 @@ void main(void)
   /* disable all interrupts before peripherals are initialized */
   __disable_irq();
   
-  /* init application ports */  
+  /* init appl1ication ports */  
   InitPORT(); 
   InitPWM();   
   //InitFTM0();
-  InitFTM1();  // 编码器控制
+  //InitFTM1();  // 编码器控制
   InitFTM3();  // PWM DA
   InitADC();
   InitPIT();  // 计算转速和转速给定值
@@ -108,8 +108,11 @@ void main(void)
 void PWMA_RELOAD0_IRQHandler(void)
 {   
       /* 读取电流采样 */
-    iabc.a = ADC_RD_RSLT_RSLT(ADC, 1);
-    iabc.c = ADC_RD_RSLT_RSLT(ADC, 2);
+    iabc.c = ADC_RD_RSLT_RSLT(ADC, 1) * 0.2111 - 400;
+    iabc.a = ADC_RD_RSLT_RSLT(ADC, 2) * 0.2084 - 400;
+    iabc.b = -iabc.a - iabc.c;
+    
+    S3toR2(iabc, &idq, theta+1);
     
     /* SVM开环计算 */
     positionSVM(Tinv);
@@ -127,11 +130,11 @@ void PWMA_RELOAD0_IRQHandler(void)
     PWM_WR_MCTRL_LDOK(PWMA, TRUE);  // start PWMs (set load OK flags and run)
     
         /* PWM DA */
-    //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((IU - 1500)/1000.0)));
-    FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * (sin(theta) + 1) / 2.0));
-
-    FTM_WR_SYNC_SWSYNC(FTM3, TRUE);  
-    
+    FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((idq.d + 300)/600.0)));
+    FTM_WR_CnV_VAL(FTM3, 6, (uint16_t)(FTM3_MODULO * ((idq.q + 300)/600.0)));
+    //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((iabc.a + 400)/800.0)));
+    //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * (sin(theta) + 1) / 2.0));
+    FTM_WR_SYNC_SWSYNC(FTM3, TRUE);
  }
 
 /******************************************************************************
@@ -163,5 +166,4 @@ void PIT0_IRQHandler(void)
   {
     spd_cmd = RAMP(spdramp, spd_cmd, 0.1, spdlimit_H, spdlimit_L);  // 转速给定值计算
   }
-  GPIO_WR_PTOR(PTB, 1<<22);
 }
