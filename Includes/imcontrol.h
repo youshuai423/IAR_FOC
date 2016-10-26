@@ -130,12 +130,12 @@ extern double spdlasterr;
 /* Forward conversion */  
 extern void S3toR2(PHASE_ABC abc, PHASE_DQ *dq, double theta);
 extern void S3toS2(PHASE_ABC abc, PHASE_ALBE *albe);
-extern void S2toR2(PHASE_ALBE albe, PHASE_DQ *dq, double theta);
+extern void S2toR2(PHASE_ALBE albe, PHASE_DQ *dq, double cosIn, double sinIn);
 
 /* Backward conversion */  
 extern void R2toS3(PHASE_DQ dq, PHASE_ABC *abc, double theta);
 extern void S2toS3(PHASE_ALBE albe, PHASE_ABC *abc);
-extern void R2toS2(PHASE_DQ dq, PHASE_ALBE *albe, double theta);
+extern void R2toS2(PHASE_DQ dq, PHASE_ALBE *albe, double cosIn, double sinIn);
 
 /* SVM */  
 extern void positionSVM(uint16_t *Tinv);

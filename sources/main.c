@@ -36,6 +36,9 @@ void main(void)
   for(i = 0; i < 1000; i++){};  // 等待ADC模块稳定
   ADC_WR_CTRL1_START0(ADC, 1); 
   
+  idq_cmd.d = 5;
+  idq_cmd.q = 10;
+  
   /* enable interrupts  */
   __enable_irq();
 
@@ -107,15 +110,27 @@ void main(void)
 ******************************************************************************/
 void PWMA_RELOAD0_IRQHandler(void)
 {   
+    double cosIn = cos(theta);
+    double sinIn = sin(theta);
+    
       /* 读取电流采样 */
     iabc.c = ADC_RD_RSLT_RSLT(ADC, 1) * 0.2111 - 400;
     iabc.a = ADC_RD_RSLT_RSLT(ADC, 2) * 0.2084 - 400;
     iabc.b = -iabc.a - iabc.c;
     
-    S3toR2(iabc, &idq, theta+1);
+    //S3toR2(iabc, &idq, theta+1);
+    S3toS2(iabc, &ialbe);
+    S2toR2(ialbe, &idq, cosIn, sinIn);
     
     /* SVM开环计算 */
-    positionSVM(Tinv);
+    u_cmd = RAMP(VSpdramp, 0, spd_cmd, Voltlimit_H, Voltlimit_L);
+    theta += 0.0000418879 * spd_cmd; // theta += 2 * pi * (spd_cmd / 30.0) * 0.0002; 
+    if (theta > 6.2831852)  // 2 * pi = 6.2831852
+      theta -= 6.2831852;
+    ualbe_cmd.al = u_cmd * cosIn;
+    ualbe_cmd.be = u_cmd * sinIn;
+    ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv);
+    //positionSVM(Tinv);
     
     /* 比较寄存器配置 */
     PWM_WR_VAL2(PWMA, 0, -Tinv[0]);

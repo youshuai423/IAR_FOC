@@ -62,8 +62,9 @@ double spdlasterr = 0;
 ******************************************************************************/
 void S3toR2(PHASE_ABC abc, PHASE_DQ *dq, double theta)
 {
-  dq->d = sqrt(2.0) * (cos(theta - 1.0/6.0*pi) * abc.a + sin(theta) * abc.b);
-  dq->q = -sqrt(2.0) * (sin(theta - 1.0/6.0*pi) * abc.a - cos(theta) * abc.b);
+  // sqrt(2) = 1.414213562, 1.0/6.0*pi = 0.52359878
+  dq->d = 1.414213562 * (cos(theta - 0.52359878) * abc.a + sin(theta) * abc.b);
+  dq->q = -1.414213562 * (sin(theta - 0.52359878) * abc.a - cos(theta) * abc.b);
 }
 
 /******************************************************************************
@@ -76,8 +77,9 @@ void S3toR2(PHASE_ABC abc, PHASE_DQ *dq, double theta)
 ******************************************************************************/
 void S3toS2(PHASE_ABC abc, PHASE_ALBE *albe)
 {
-  albe->al = sqrt(3.0/2.0) * abc.a;
-  albe->be = 1.0/sqrt(2) * abc.a + sqrt(2) * abc.b;
+  // sqrt(3.0/2.0) = 1.22474487, 1.0/sqrt(2) = 0.7071067812, sqrt(2) = 1.414213562
+  albe->al = 1.22474487 * abc.a;
+  albe->be = 0.7071067812 * abc.a + 1.414213562 * abc.b;
 }
 
 /******************************************************************************
@@ -89,10 +91,10 @@ void S3toS2(PHASE_ABC abc, PHASE_ALBE *albe)
 
 @return  N/A
 ******************************************************************************/
-void S2toR2(PHASE_ALBE albe, PHASE_DQ *dq, double theta)
+void S2toR2(PHASE_ALBE albe, PHASE_DQ *dq, double cosIn, double sinIn)
 {
-  dq->d = cos(theta) * albe.al + sin(theta) * albe.be;
-  dq->q = -sin(theta) * albe.al + cos(theta) * albe.be;
+  dq->d = cosIn * albe.al + sinIn * albe.be;
+  dq->q = -sinIn * albe.al + cosIn * albe.be;
 }
 
 /******************************************************************************
@@ -106,9 +108,10 @@ void S2toR2(PHASE_ALBE albe, PHASE_DQ *dq, double theta)
 ******************************************************************************/
 void R2toS3(PHASE_DQ dq, PHASE_ABC *abc, double theta)
 {
-  abc->a = sqrt(2.0/3.0) * (cos(theta) * dq.d - sin(theta) *dq.q);
-  abc->b = sqrt(2.0/3.0) * (cos(theta - 2.0/3.0*pi) * dq.d - sin(theta - 2.0/3.0*pi) *dq.q);
-  abc->c = sqrt(2.0/3.0) * (cos(theta + 2.0/3.0*pi) * dq.d - sin(theta + 2.0/3.0*pi) *dq.q);
+  // sqrt(2.0/3.0) = 0.81649658, 2.0/3.0*pi = 2.094395102
+  abc->a = 0.81649658 * (cos(theta) * dq.d - sin(theta) *dq.q);
+  abc->b = 0.81649658 * (cos(theta - 2.094395102) * dq.d - sin(theta - 2.094395102) *dq.q);
+  abc->c = 0.81649658 * (cos(theta + 2.094395102) * dq.d - sin(theta + 2.094395102) *dq.q);
 }
 
 /******************************************************************************
@@ -121,9 +124,10 @@ void R2toS3(PHASE_DQ dq, PHASE_ABC *abc, double theta)
 ******************************************************************************/
 void S2toS3(PHASE_ALBE albe, PHASE_ABC *abc)
 {
-  abc->a = sqrt(2.0/3.0) * albe.al;
-  abc->b = sqrt(2.0/3.0) * (-0.5 * albe.al + sqrt(3)/2.0 * albe.be);
-  abc->c = sqrt(2.0/3.0) * (-0.5 * albe.al - sqrt(3)/2.0 * albe.be);
+  // sqrt(2.0/3.0) = 0.81649658, sqrt(3)/2.0 = 0.8660254
+  abc->a = 0.81649658 * albe.al;
+  abc->b = -0.40824829 * albe.al + 0.70710678 * albe.be; // abc->b = sqrt(2.0/3.0) * (-0.5 * albe.al + sqrt(3)/2.0 * albe.be)
+  abc->c = -0.40824829 * albe.al - 0.70710678 * albe.be; // sqrt(2.0/3.0) * (-0.5 * albe.al - sqrt(3)/2.0 * albe.be);
 }
 
 /******************************************************************************
@@ -135,10 +139,10 @@ void S2toS3(PHASE_ALBE albe, PHASE_ABC *abc)
 
 @return  N/A
 ******************************************************************************/
-void R2toS2(PHASE_DQ dq, PHASE_ALBE *albe, double theta)
+void R2toS2(PHASE_DQ dq, PHASE_ALBE *albe, double cosIn, double sinIn)
 {
-  albe->al = cos(theta) * dq.d - sin(theta) * dq.q;
-  albe->be = sin(theta) * dq.d + cos(theta) * dq.q;
+  albe->al = cosIn * dq.d - sinIn * dq.q;
+  albe->be = sinIn * dq.d + cosIn * dq.q;
 }
 
 /*==============================================================================
@@ -161,16 +165,17 @@ void positionSVM(uint16_t *Tinv)
   
     /* 扇区及夹角计算 */
     //theta += 2 * pi * (spd_cmd / 30.0) * 0.0001;  ==========================================================
-    theta += 2 * pi * (spd_cmd / 30.0) * 0.0002; 
-    if (theta > 2 * pi)  theta -= 2*pi;
+    theta += 0.0000418879 * spd_cmd; // theta += 2 * pi * (spd_cmd / 30.0) * 0.0002; 
+    if (theta > 6.2831852)  // 2 * pi = 6.2831852
+      theta -= 6.2831852;
     
-    angle = fmod(theta,1/3.0 * pi);
-    sector = (int)floor( theta / (1/3.0 * pi)) + 1;
+    angle = fmod(theta, 1.047197551);  // 1/3.0 * pi = 1.047197551
+    sector = (int)floor(theta * 0.9549296586) + 1;  // 1 / (1/3.0 * pi) = 0.9549296586
     
     /* 占空比计算 */
-    Dm = u_cmd / Ud * sin(1/3.0 * pi - angle);
+    Dm = u_cmd / Ud * sin(1.047197551 - angle);  // 1/3.0 * pi = 1.047197551
     Dn = u_cmd / Ud * sin(angle);
-    D0 = (1 - Dm - Dn) / 2.0;
+    D0 = (1 - Dm - Dn) * 0.5;
     Dm = roundn(Dm, digit);
     Dn = roundn(Dn, digit);
     D0 = roundn(D0, digit);
@@ -225,43 +230,46 @@ void ualbeSVM(double Ual, double Ube, double Ud, uint16_t *Tinv)
 {
   double dm, dn, d0;
   double k = Ube / Ual;
+  double reciUd = 1.0 / Ud;
   
   /* 扇区判断及占空比计算 */
-  if (Ual > 0 && Ube >= 0 && k >= 0 && k < sqrt(3))
+  // sqrt(3) = 1.7320508, sqrt(3) / 2.0 = 0.8660254044
+  // 1 / sqrt(3) = 0.57735027 
+  if (Ual > 0 && Ube >= 0 && k >= 0 && k < 1.7320508)
   {
     sector = 1;
-    dm = (Ual - Ube/sqrt(3)) / Ud;
-    dn = 2/sqrt(3) * Ube / Ud;
+    dm = 0.8660254044 * (Ual - Ube * 0.57735027) * reciUd;
+    dn = Ube * reciUd;
   }
-  else if (Ube > 0 && (k >= sqrt(3) || k < -sqrt(3)))
+  else if (Ube > 0 && (k >= 1.7320508 || k < -1.7320508))
   {
     sector = 2;
-    dm = (Ual + Ube/sqrt(3)) / Ud;
-    dn = (-Ual + Ube/sqrt(3)) / Ud;
+    dm = 0.8660254044 * (Ual + Ube * 0.57735027) * reciUd;
+    dn = 0.8660254044 * (-Ual + Ube * 0.57735027) * reciUd;
   }
-  else if (Ual < 0 && Ube > 0 && k >= -sqrt(3) && k < 0)
+  else if (Ual < 0 && Ube > 0 && k >= -1.7320508 && k < 0)
   {
     sector = 3;
-    dm = 2/sqrt(3) * Ube / Ud;
-    dn = (-Ual - Ube/sqrt(3)) / Ud;
+    dm = Ube * reciUd;
+    dn = 0.8660254044 * (-Ual - Ube * 0.57735027) * reciUd;
   }
-  else if (Ual < 0 && Ube <= 0 && k >= 0 && k < sqrt(3))
+  else if (Ual < 0 && Ube <= 0 && k >= 0 && k < 1.7320508)
   { 
     sector = 4;
-    dm = (-Ual + Ube/sqrt(3)) / Ud;
-    dn = -2/sqrt(3) * Ube / Ud;
+    dm = 0.8660254044 * (-Ual + Ube * 0.57735027) * reciUd;
+    dn = -Ube * reciUd;
   }
-  else if (Ube < 0 && (k >= sqrt(3) || k < -sqrt(3)))
+  else if (Ube < 0 && (k >= 1.7320508 || k < -1.7320508))
   {
     sector = 5;
-    dm = (-Ual - Ube/sqrt(3)) / Ud;
-    dn = (Ual - Ube/sqrt(3)) / Ud;
+    dm = 0.8660254044 * (-Ual - Ube * 0.57735027) * reciUd;
+    dn = 0.8660254044 * (Ual - Ube * 0.57735027) * reciUd;
   }
-  else if (Ual > 0 && Ube < 0 && k >= -sqrt(3) && k < 0)
+  else if (Ual > 0 && Ube < 0 && k >= -1.7320508 && k < 0)
   {
     sector = 6;
-    dm = -2/sqrt(3) * Ube / Ud;
-    dn = (Ual + Ube/sqrt(3)) / Ud;
+    dm = -Ube * reciUd;
+    dn = 0.8660254044 * (Ual + Ube * 0.57735027) * reciUd;
   }
   else
   {
@@ -285,44 +293,44 @@ void ualbeSVM(double Ual, double Ube, double Ud, uint16_t *Tinv)
   {
   case 1:
     {      
-      Tinv[0] = (int)floor(period * (dm + dn + d0));
-      Tinv[1] = (int)floor(period * (dn + d0));
-      Tinv[2] = (int)floor(period * d0);
+      Tinv[0] = (int)(period * (dm + dn + d0));
+      Tinv[1] = (int)(period * (dn + d0));
+      Tinv[2] = (int)(period * d0);
       break;
     }
   case 2:
     {
-      Tinv[0] = (int)floor(period * (dm + d0));
-      Tinv[1] = (int)floor(period * (dm + dn + d0));
-      Tinv[2] = (int)floor(period * d0);
+      Tinv[0] = (int)(period * (dm + d0));
+      Tinv[1] = (int)(period * (dm + dn + d0));
+      Tinv[2] = (int)(period * d0);
       break;
     }
   case 3:
     {
-      Tinv[0] = (int)floor(period * (d0));
-      Tinv[1] = (int)floor(period * (dm + dn + d0));
-      Tinv[2] = (int)floor(period * (dn + d0));
+      Tinv[0] = (int)(period * (d0));
+      Tinv[1] = (int)(period * (dm + dn + d0));
+      Tinv[2] = (int)(period * (dn + d0));
       break;
     }
   case 4:
     {
-      Tinv[0] = (int)floor(period * (d0));
-      Tinv[1] = (int)floor(period * (dm + d0));
-      Tinv[2] = (int)floor(period * (dm + dn + d0));
+      Tinv[0] = (int)(period * (d0));
+      Tinv[1] = (int)(period * (dm + d0));
+      Tinv[2] = (int)(period * (dm + dn + d0));
       break;
     }
   case 5:
     {
-      Tinv[0] = (int)floor(period * (dn + d0));
-      Tinv[1] = (int)floor(period * (d0));
-      Tinv[2] = (int)floor(period * (dm + dn + d0));
+      Tinv[0] = (int)(period * (dn + d0));
+      Tinv[1] = (int)(period * (d0));
+      Tinv[2] = (int)(period * (dm + dn + d0));
       break;
     }
   case 6:
     {
-      Tinv[0] = (int)floor(period * (dm + dn + d0));
-      Tinv[1] = (int)floor(period * (d0));
-      Tinv[2] = (int)floor(period * (dm + d0));
+      Tinv[0] = (int)(period * (dm + dn + d0));
+      Tinv[1] = (int)(period * (d0));
+      Tinv[2] = (int)(period * (dm + d0));
       break;
     }
   default:
