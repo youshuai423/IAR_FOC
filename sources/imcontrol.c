@@ -381,19 +381,22 @@ double lamdarCal(double lamdar, double id)
 ******************************************************************************/
 double spdCal_M()
 {
-    double speed = 0;
+    double spd = 0;
     
     if (FTM_RD_SC_TOF(FTM1) == 0)  // 计数值未溢出
-      speed = (int)((FTM_RD_CNT(FTM1) - FTM1cnt) * 2.34375);
+    {
+      //speed = (FTM_RD_CNT(FTM1) - FTM1cnt);
+      spd = (int)(((int16_t)FTM_RD_CNT(FTM1) - (int16_t)FTM1cnt) * 2.34375);
+    }
     else  // 溢出
     {
-      speed = (int)((FTM_RD_CNT(FTM1) + FTM1_MODULO - FTM1cnt) * 2.34375);
+      spd = (int)((FTM_RD_CNT(FTM1) + FTM1_MODULO - FTM1cnt) * 2.34375);
       FTM_WR_SC_TOF(FTM1, 0);
     }
     
     FTM1cnt = FTM_RD_CNT(FTM1);
     
-    return speed;
+    return spd;
 }
 
 /*double wrCal_lamdar(PHASE_ALBE *lamdaralbe, double *anglek, PHASE_ALBE ualbe, PHASE_ALBE ialbe, double ts)

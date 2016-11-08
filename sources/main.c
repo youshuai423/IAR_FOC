@@ -27,7 +27,7 @@ void main(void)
   InitPORT(); 
   InitPWM();   
   //InitFTM0();
-  //InitFTM1();  // 编码器控制
+  InitFTM1();  // 编码器控制
   InitFTM3();  // PWM DA
   InitADC();
   InitPIT();  // 计算转速和转速给定值
@@ -122,6 +122,12 @@ void PWMA_RELOAD0_IRQHandler(void)
     S3toS2(iabc, &ialbe);
     S2toR2(ialbe, &idq, cosIn, sinIn);
     
+    /*udq_cmd.d = PImodule(50, 0, udq_cmd.d, idq_cmd.d - idq.d, &idlasterr, 15, 0);
+    udq_cmd.q = PImodule(50, 0, udq_cmd.q, idq_cmd.q - idq.q, &iqlasterr, 15, 0);
+    
+    R2toS2(udq_cmd, &ualbe_cmd, cosIn, sinIn);
+    ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv);*/
+    
     /* SVM开环计算 */
     u_cmd = RAMP(VSpdramp, 0, spd_cmd, Voltlimit_H, Voltlimit_L);
     theta += 0.0000418879 * spd_cmd; // theta += 2 * pi * (spd_cmd / 30.0) * 0.0002; 
@@ -129,7 +135,7 @@ void PWMA_RELOAD0_IRQHandler(void)
       theta -= 6.2831852;
     ualbe_cmd.al = u_cmd * cosIn;
     ualbe_cmd.be = u_cmd * sinIn;
-    ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv);
+    ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv); 
     //positionSVM(Tinv);
     
     /* 比较寄存器配置 */
@@ -145,8 +151,10 @@ void PWMA_RELOAD0_IRQHandler(void)
     PWM_WR_MCTRL_LDOK(PWMA, TRUE);  // start PWMs (set load OK flags and run)
     
         /* PWM DA */
-    FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((idq.d + 300)/600.0)));
-    FTM_WR_CnV_VAL(FTM3, 6, (uint16_t)(FTM3_MODULO * ((idq.q + 300)/600.0)));
+    FTM_WR_CnV_VAL(FTM3, 6, (uint16_t)(FTM3_MODULO * ((Tinv[0] - 2000) / 4000.0)));
+    FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((Tinv[1] - 2000) / 4000.0)));
+    //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((idq.d + 300)/600.0)));
+    //FTM_WR_CnV_VAL(FTM3, 6, (uint16_t)(FTM3_MODULO * ((idq.q + 300)/600.0)));
     //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((iabc.a + 400)/800.0)));
     //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * (sin(theta) + 1) / 2.0));
     FTM_WR_SYNC_SWSYNC(FTM3, TRUE);
@@ -175,7 +183,7 @@ void PIT0_IRQHandler(void)
 {
   PIT_WR_TFLG_TIF(PIT, 0, 1);
   
-  //speed = spdCal_M();  // 转速计算
+  speed = spdCal_M();  // 转速计算
   
   if (spd_cmd < spd_req)
   {

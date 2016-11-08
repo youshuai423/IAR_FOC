@@ -71,4 +71,10 @@ void InitPORT(void)
     PORT_WR_PCR_MUX(PORTB, 22, 1);  
     GPIO_SET_PDDR(PTB, 1<<22);
     GPIO_WR_PCOR(PTB, 1<<22);
+    
+    PORT_WR_PCR_MUX(PORTE, 18, 1);  
+    GPIO_SET_PDDR(PTE, 0<<18);
+    
+    PORT_WR_PCR_MUX(PORTE, 19, 1);  
+    GPIO_SET_PDDR(PTE, 0<<19);
 }
