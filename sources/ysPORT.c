@@ -41,16 +41,6 @@ void InitPORT(void)
     PORT_WR_PCR_MUX(PORTD, 3, 6);
     PORT_WR_PCR_MUX(PORTD, 4, 5);
     PORT_WR_PCR_MUX(PORTD, 5, 5);  
-    
-    /* FTM0 port configuration */
-    /*SIM_WR_SCGC6_FTM0(SIM, 1);  // enable clock
-    
-    PORT_WR_PCR_MUX(PORTD, 0, 5);  // set port
-    PORT_WR_PCR_MUX(PORTD, 1, 5); 
-    PORT_WR_PCR_MUX(PORTD, 2, 5);
-    PORT_WR_PCR_MUX(PORTD, 3, 5);
-    PORT_WR_PCR_MUX(PORTD, 4, 4);
-    PORT_WR_PCR_MUX(PORTD, 5, 4);*/
 
     /* FTM1 port configuration */
     SIM_WR_SCGC6_FTM1(SIM, 1);  // enable clock
@@ -72,9 +62,11 @@ void InitPORT(void)
     GPIO_SET_PDDR(PTB, 1<<22);
     GPIO_WR_PCOR(PTB, 1<<22);
     
-    PORT_WR_PCR_MUX(PORTE, 18, 1);  
-    GPIO_SET_PDDR(PTE, 0<<18);
-    
-    PORT_WR_PCR_MUX(PORTE, 19, 1);  
-    GPIO_SET_PDDR(PTE, 0<<19);
+    /* RUN/STOP command configuration */
+    PORT_WR_PCR_MUX(PORTE, 19, 1); 
+    PORT_WR_PCR_IRQC(PORTE, 19, 11);
+    GPIO_SET_PDDR(PTE, 0<<19);    
+      /* enable & setup interrupts */
+    NVIC_EnableIRQ(PORTE_IRQn);                                          /* enable Interrupt */
+    NVIC_SetPriority(PORTE_IRQn, 4);                                     /* set priority to interrupt */
 }

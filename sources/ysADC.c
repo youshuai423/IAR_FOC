@@ -30,8 +30,8 @@ void InitADC(void)
   //ADC_WR_CTRL1_SYNC0(ADC, 1);
                       
   /* start ADCA */
-  ADC_WR_CTRL1_STOP0(ADC, 0);
-  ADC_WR_CTRL2_STOP1(ADC, 1);
+  //ADC_WR_CTRL1_STOP0(ADC, 0);
+  //ADC_WR_CTRL2_STOP1(ADC, 1);
     
   /* input clock is 24.66MHz (148MHz fast peripheral clock divided by 6), 
      single ended */

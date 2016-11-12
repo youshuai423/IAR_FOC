@@ -8,7 +8,7 @@
 | local variable definitions                          
 |----------------------------------------------------------------------------*/
 uint16_t Tinv[3] = {0, 0, 0};  // 三相对应PWM寄存器比较值
-
+int temp = 0;
 int count = 0;
 
 /******************************************************************************
@@ -26,7 +26,6 @@ void main(void)
   /* init appl1ication ports */  
   InitPORT(); 
   InitPWM();   
-  //InitFTM0();
   InitFTM1();  // 编码器控制
   InitFTM3();  // PWM DA
   InitADC();
@@ -100,6 +99,65 @@ void main(void)
   PWM_WR_MCTRL_LDOK(PWMA, 1);  // start PWMs (set load OK flags and run)
 
 } */
+
+/******************************************************************************
+@brief   PORTE 中断 -- RUN/STOP控制
+
+@param   N/A
+
+@return  N/A
+******************************************************************************/
+void PORTE_IRQHandler(void)
+{  
+  while(PORT_RD_PCR_ISF(PORTE, 19) == 1) 
+    PORT_WR_PCR_ISF(PORTE, 19, 1);
+
+  if ((GPIO_RD_PDIR(PTE) & 0x00080000) == 0x00080000) // PTE19 = 1,RUN
+  {
+    /* start ADCA */
+    ADC_WR_CTRL1_STOP0(ADC, 0);
+    ADC_WR_CTRL2_STOP1(ADC, 1);
+    
+    /* start PWMs (set load OK flags and run) */
+    PWM_WR_MASK_MASKA(PWMA, 0);
+    PWM_WR_MASK_MASKB(PWMA, 0);
+    PWM_WR_MCTRL_LDOK(PWMA, 0x7);
+    PWM_WR_MCTRL_RUN(PWMA, 0x7);
+    
+    /* start PIT */
+    PIT_WR_MCR_MDIS(PIT, 0);    
+  }
+  else
+  {
+    spd_req = 0;
+    
+    while(spd_cmd > 100){};  // 中断优先级设置出错
+    
+    /* clear interrupt flags */
+    PWM_WR_STS_RF(PWMA, 0, TRUE);
+    PIT_WR_TFLG_TIF(PIT, 0, 1);
+    
+    /* stop ADCA */
+    ADC_WR_CTRL1_STOP0(ADC, 1);
+    ADC_WR_CTRL2_STOP1(ADC, 1);
+    
+    /* stop PWMs */
+    PWM_WR_MASK_MASKA(PWMA, 1);
+    PWM_WR_MASK_MASKB(PWMA, 1);
+    PWM_WR_MCTRL_CLDOK(PWMA, 0x7);
+    PWM_WR_MCTRL_RUN(PWMA, 0x0);
+    
+    /* stop PIT */
+    PIT_WR_MCR_MDIS(PIT, 1); 
+    
+    /* initial variables */
+    theta = 0;
+    speed = 0;
+    u_cmd = 0;
+    spd_req= 450;
+  }
+      
+}
 
 /******************************************************************************
 @brief   PWMA 中断 -- V/f开环控制
@@ -188,5 +246,9 @@ void PIT0_IRQHandler(void)
   if (spd_cmd < spd_req)
   {
     spd_cmd = RAMP(spdramp, spd_cmd, 0.1, spdlimit_H, spdlimit_L);  // 转速给定值计算
+  }
+  else if (spd_cmd > spd_req)
+  {
+    spd_cmd = RAMP(spdramp, spd_cmd, -0.1, spdlimit_H, spdlimit_L);  // 转速给定值计算
   }
 }

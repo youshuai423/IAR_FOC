@@ -49,7 +49,7 @@
 #define uqlimit_L -60
 
 /* speed ramp */
-#define spdramp 60  // 斜率
+#define spdramp 120  // 斜率
 #define spdlimit_H 450  // 转速上限
 #define spdlimit_L 0  // 转速下限
 

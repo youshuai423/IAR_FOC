@@ -41,7 +41,7 @@ TraceBufferSize=0x00010000
 TraceStallIfFIFOFull=0x00000000
 TracePortSize=0x00000000
 [DebugChecksum]
-Checksum=-1161493684
+Checksum=-1135482129
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -57,7 +57,8 @@ ShowSource=1
 [Disassemble mode]
 mode=0
 [Breakpoints2]
-Count=0
+Bp0=_ 1 "EMUL_CODE" "{$PROJ_DIR$\sources\main.c}.115.3" 0 0 1 "" 0 "" 0
+Count=1
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""

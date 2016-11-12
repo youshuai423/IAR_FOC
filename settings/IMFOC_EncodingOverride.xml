@@ -14,6 +14,10 @@
     <encoding>System</encoding>
   </override>
   <override>
+    <path>C:\Users\itsys\Desktop\Code\IAR_FOC\sources\ysADC.c</path>
+    <encoding>System</encoding>
+  </override>
+  <override>
     <path>C:\Users\itsys\Desktop\Code\IAR_FOC\sources\ysFTM.C</path>
     <encoding>System</encoding>
   </override>

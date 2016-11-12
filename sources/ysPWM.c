@@ -20,6 +20,10 @@
 ******************************************************************************/
 void InitPWM(void)
 {   
+  /* mask output */
+  PWM_WR_MASK_MASKA(PWMA, 1);
+  PWM_WR_MASK_MASKB(PWMA, 1);
+  
   /* full cycle reload */
   PWM_WR_CTRL_FULL(PWMA, 0, 1);
   PWM_WR_CTRL_FULL(PWMA, 1, 1);
@@ -104,9 +108,9 @@ void InitPWM(void)
   //PWM_WR_CTRL_PRSC(PWMA, 2, 3);
        
   /* start PWMs (set load OK flags and run) */
-  PWM_WR_MCTRL_CLDOK(PWMA, 0x7);
-  PWM_WR_MCTRL_LDOK(PWMA, 0x7);
-  PWM_WR_MCTRL_RUN(PWMA, 0x7);
+  //PWM_WR_MCTRL_CLDOK(PWMA, 0x7);
+  //PWM_WR_MCTRL_LDOK(PWMA, 0x7);
+  //PWM_WR_MCTRL_RUN(PWMA, 0x7);
     
   PWM_WR_INTEN_RIE(PWMA, 0 , 1);
   /* enable & setup interrupts */
