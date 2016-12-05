@@ -6,11 +6,12 @@
 /******************************************************************************
 | defines
 |----------------------------------------------------------------------------*/
-#define PIT_MODULO_100ms  (2470000)  // 100ms对应时钟数
-#define PIT_MODULO_1ms  (24700)  // 100ms对应时钟数
-#define TRUE 1
+#define SCINumSend 1
 
 /******************************************************************************
 | exported functions
 |----------------------------------------------------------------------------*/
-extern void InitPIT();
+extern void InitUART1();
+extern void uartSend(int8_t a);
+extern void uartString(char * msg);
+extern void uartNumber(int8_t msg[], int maxIndex);

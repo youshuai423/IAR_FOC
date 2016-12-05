@@ -2106,6 +2106,9 @@
       <name>$PROJ_DIR$\Includes\ysADC.h</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\Includes\ysCAN.h</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\Includes\ysFTM.h</name>
     </file>
     <file>
@@ -2116,6 +2119,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\Includes\ysPWM.h</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\Includes\ysUART.h</name>
     </file>
   </group>
   <group>
@@ -2205,7 +2211,13 @@
       <name>$PROJ_DIR$\sources\ysADC.c</name>
     </file>
     <file>
+      <name>$PROJ_DIR$\sources\ysCAN.c</name>
+    </file>
+    <file>
       <name>$PROJ_DIR$\sources\ysFTM.C</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sources\ysParamIden.c</name>
     </file>
     <file>
       <name>$PROJ_DIR$\sources\ysPIT.c</name>
@@ -2215,6 +2227,9 @@
     </file>
     <file>
       <name>$PROJ_DIR$\sources\ysPWM.c</name>
+    </file>
+    <file>
+      <name>$PROJ_DIR$\sources\ysUART.c</name>
     </file>
   </group>
 </project>

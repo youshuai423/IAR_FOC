@@ -115,5 +115,5 @@ void InitPWM(void)
   PWM_WR_INTEN_RIE(PWMA, 0 , 1);
   /* enable & setup interrupts */
   NVIC_EnableIRQ(PWMA_RELOAD0_IRQn);                                                  /* enable Interrupt */
-  NVIC_SetPriority(PWMA_RELOAD0_IRQn, 3);                                             /* set priority to interrupt */
+  NVIC_SetPriority(PWMA_RELOAD0_IRQn, 2);                                             /* set priority to interrupt */
 }

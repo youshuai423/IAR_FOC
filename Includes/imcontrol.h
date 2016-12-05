@@ -50,7 +50,7 @@
 
 /* speed ramp */
 #define spdramp 120  // 斜率
-#define spdlimit_H 450  // 转速上限
+#define spdlimit_H 1500  // 转速上限
 #define spdlimit_L 0  // 转速下限
 
 /* V/spd curve */
@@ -154,6 +154,9 @@ extern double positonCal(double wr, double lamdar, double iq, double theta);
 /* PI module */  
 extern double PImodule(double Kp, double Ki, double inputk, double err, double *lasterr, double Uplim, double Downlim);
 extern double Integrator(double paramin, double sum, double ts);
+
+/* IM control */  
+extern void openloop();
 
 /* Auxiliary Function */
 extern double RAMP(double ramp, double initial, double increment, double Hlimit, double Llimit);

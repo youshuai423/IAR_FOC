@@ -41,7 +41,7 @@ TraceBufferSize=0x00010000
 TraceStallIfFIFOFull=0x00000000
 TracePortSize=0x00000000
 [DebugChecksum]
-Checksum=-1135482129
+Checksum=-1711919400
 [CodeCoverage]
 Enabled=_ 0
 [Exceptions]
@@ -54,11 +54,6 @@ MixedMode=1
 [Trace1]
 Enabled=0
 ShowSource=1
-[Disassemble mode]
-mode=0
-[Breakpoints2]
-Bp0=_ 1 "EMUL_CODE" "{$PROJ_DIR$\sources\main.c}.115.3" 0 0 1 "" 0 "" 0
-Count=1
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -66,13 +61,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Aliases]
-A0=_ "C:\Users\yoush\Desktop\Code\IAR_FOC\sdk\devices\MKV46F15\startup\iar\startup_MKV46F15.s" "C:\Users\itsys\Desktop\Code\IAR_FOC\sdk\devices\MKV46F15\startup\iar\startup_MKV46F15.s"
-A1=_ "C:\Users\yoush\Desktop\Code\IAR_FOC\sdk\devices\MKV46F15\startup\system_MKV46F15.c" "C:\Users\itsys\Desktop\Code\IAR_FOC\sdk\devices\MKV46F15\startup\system_MKV46F15.c"
-A2=_ "C:\Users\yoush\Desktop\Code\IAR_FOC\sources\ysFTM.C" "C:\Users\itsys\Desktop\Code\IAR_FOC\sources\ysFTM.C"
-A3=_ "C:\Users\yoush\Desktop\Code\IAR_FOC\sources\ysPWM.c" "C:\Users\itsys\Desktop\Code\IAR_FOC\sources\ysPWM.c"
-Count=4
-SuppressDialog=1
 [DriverProfiling]
 Enabled=0
 Mode=1
@@ -83,3 +71,14 @@ Exclusions=
 Enabled=0
 [CallStackStripe]
 ShowTiming=1
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Count=0
+[Aliases]
+A0=_ "C:\Users\yoush\Desktop\Code\IAR_FOC\sdk\devices\MKV46F15\startup\iar\startup_MKV46F15.s" "C:\Users\itsys\Desktop\Code\IAR_FOC\sdk\devices\MKV46F15\startup\iar\startup_MKV46F15.s"
+A1=_ "C:\Users\yoush\Desktop\Code\IAR_FOC\sdk\devices\MKV46F15\startup\system_MKV46F15.c" "C:\Users\itsys\Desktop\Code\IAR_FOC\sdk\devices\MKV46F15\startup\system_MKV46F15.c"
+A2=_ "C:\Users\yoush\Desktop\Code\IAR_FOC\sources\ysFTM.C" "C:\Users\itsys\Desktop\Code\IAR_FOC\sources\ysFTM.C"
+A3=_ "C:\Users\yoush\Desktop\Code\IAR_FOC\sources\ysPWM.c" "C:\Users\itsys\Desktop\Code\IAR_FOC\sources\ysPWM.c"
+Count=4
+SuppressDialog=1

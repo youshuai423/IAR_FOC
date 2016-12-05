@@ -40,7 +40,7 @@ PHASE_DQ udq_cmd = {0, 0};
 PHASE_DQ idq_cmd = {0, 0};
   // 转速
 double spd_cmd = 0;  // 转速给定
-double spd_req = 450;  // 转速设定
+double spd_req = 1000;  // 转速设定
 
 /* PI 变量 */
 double idlasterr = 0;
@@ -496,6 +496,61 @@ double PImodule(double Kp, double Ki, double lastout, double err, double *laster
 double Integrator(double paramin, double sum, double ts)
 {
   return paramin * ts + sum;
+}
+
+/******************************************************************************
+@brief   开环运行
+
+@param   
+
+@return  
+******************************************************************************/
+void openloop()
+{
+  double cosIn = cos(theta);
+  double sinIn = sin(theta);
+  
+    /* 读取电流采样 */
+  iabc.c = ADC_RD_RSLT_RSLT(ADC, 1) * 0.2111 - 400;
+  iabc.a = ADC_RD_RSLT_RSLT(ADC, 2) * 0.2084 - 400;
+  iabc.b = -iabc.a - iabc.c;
+  
+  //S3toR2(iabc, &idq, theta+1);
+  S3toS2(iabc, &ialbe);
+  S2toR2(ialbe, &idq, cosIn, sinIn);
+  
+  /*udq_cmd.d = PImodule(50, 0, udq_cmd.d, idq_cmd.d - idq.d, &idlasterr, 15, 0);
+  udq_cmd.q = PImodule(50, 0, udq_cmd.q, idq_cmd.q - idq.q, &iqlasterr, 15, 0);
+  
+  R2toS2(udq_cmd, &ualbe_cmd, cosIn, sinIn);
+  ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv);*/
+  
+  /* SVM开环计算 */
+  u_cmd = RAMP(VSpdramp, 0, spd_cmd, Voltlimit_H, Voltlimit_L);
+  theta += 0.0000418879 * spd_cmd; // theta += 2 * pi * (spd_cmd / 30.0) * 0.0002; 
+  if (theta > 6.2831852)  // 2 * pi = 6.2831852
+    theta -= 6.2831852;
+  ualbe_cmd.al = u_cmd * cosIn;
+  ualbe_cmd.be = u_cmd * sinIn;
+  ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv); 
+  
+  /* 比较寄存器配置 */
+  PWM_WR_VAL2(PWMA, 0, -Tinv[0]);
+  PWM_WR_VAL2(PWMA, 1, -Tinv[1]);
+  PWM_WR_VAL2(PWMA, 2, -Tinv[2]);
+  
+  PWM_WR_VAL3(PWMA, 0, Tinv[0]);
+  PWM_WR_VAL3(PWMA, 1, Tinv[1]);
+  PWM_WR_VAL3(PWMA, 2, Tinv[2]);
+  
+      /* PWM DA */
+  FTM_WR_CnV_VAL(FTM3, 6, (uint16_t)(FTM3_MODULO * ((Tinv[0] - 2000) / 4000.0)));
+  FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((Tinv[1] - 2000) / 4000.0)));
+  //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((idq.d + 300)/600.0)));
+  //FTM_WR_CnV_VAL(FTM3, 6, (uint16_t)(FTM3_MODULO * ((idq.q + 300)/600.0)));
+  //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * ((iabc.a + 400)/800.0)));
+  //FTM_WR_CnV_VAL(FTM3, 7, (uint16_t)(FTM3_MODULO * (sin(theta) + 1) / 2.0));
+  FTM_WR_SYNC_SWSYNC(FTM3, TRUE);
 }
 
 /******************************************************************************

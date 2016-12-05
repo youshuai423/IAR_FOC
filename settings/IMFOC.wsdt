@@ -18,7 +18,7 @@
           
           
           
-        <Column0>250</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
+        <Column0>195</Column0><Column1>27</Column1><Column2>27</Column2><Column3>27</Column3></ColumnWidths>
       </Workspace>
       <TerminalIO/>
       <Debug-Log>
@@ -31,18 +31,18 @@
           
           
           
-        <Position>4</Position><ScreenPosX>1980</ScreenPosX><ScreenPosY>254</ScreenPosY><Windows/></PreferedWindows>
+        <Position>4</Position><ScreenPosX>1585</ScreenPosX><ScreenPosY>141</ScreenPosY><Windows/></PreferedWindows>
       </Register>
       <Select-Ambiguous-Definitions>
-        <ColumnWidth0>552</ColumnWidth0>
-        <ColumnWidth1>78</ColumnWidth1>
-        <ColumnWidth2>946</ColumnWidth2>
-      </Select-Ambiguous-Definitions>
-    </Static>
+        
+        
+        
+      <ColumnWidth0>552</ColumnWidth0><ColumnWidth1>78</ColumnWidth1><ColumnWidth2>946</ColumnWidth2></Select-Ambiguous-Definitions>
+    <Find-All-References><ColumnWidth0>470</ColumnWidth0><ColumnWidth1>67</ColumnWidth1><ColumnWidth2>806</ColumnWidth2></Find-All-References></Static>
     <Windows>
       
       
-    <Wnd0>
+    <Wnd2>
         <Tabs>
           <Tab>
             <Identity>TabID-15839-15725</Identity>
@@ -62,9 +62,9 @@
             <Factory>Select-Ambiguous-Definitions</Factory>
             <Session/>
           </Tab>
-        </Tabs>
+        <Tab><Identity>TabID-31361-6560</Identity><TabName>References</TabName><Factory>Find-All-References</Factory><Session/></Tab></Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd0><Wnd1>
+      <SelectedTab>0</SelectedTab></Wnd2><Wnd3>
         <Tabs>
           <Tab>
             <Identity>TabID-26587-15728</Identity>
@@ -76,20 +76,20 @@
           </Tab>
         </Tabs>
         
-      <SelectedTab>0</SelectedTab></Wnd1></Windows>
+      <SelectedTab>0</SelectedTab></Wnd3></Windows>
     <Editor>
       
       
       
       
-    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\imcontrol.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>155</YPos2><SelStart2>15996</SelStart2><SelEnd2>15996</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\ysPORT.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>36</YPos2><SelStart2>2206</SelStart2><SelEnd2>2206</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Includes\imcontrol.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>40</YPos2><SelStart2>1180</SelStart2><SelEnd2>1180</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Includes\ysPWM.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>447</SelStart2><SelEnd2>447</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\ysPWM.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>91</YPos2><SelStart2>997</SelStart2><SelEnd2>997</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\ysPIT.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>544</SelStart2><SelEnd2>544</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sdk\devices\MKV46F15\include\MKV46F15_extension.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>30981</YPos2><SelStart2>1433752</SelStart2><SelEnd2>1433752</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>9</YPos2><SelStart2>774</SelStart2><SelEnd2>774</SelEnd2></Tab><ActiveTab>7</ActiveTab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
+    <Pane><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Includes\main.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>346</SelStart2><SelEnd2>346</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\main.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>167</YPos2><SelStart2>4814</SelStart2><SelEnd2>4814</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\ysUART.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>87</YPos2><SelStart2>2634</SelStart2><SelEnd2>2634</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Includes\imcontrol.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>48</YPos2><SelStart2>1212</SelStart2><SelEnd2>1212</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\imcontrol.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>138</YPos2><SelStart2>5386</SelStart2><SelEnd2>5386</SelEnd2></Tab><ActiveTab>4</ActiveTab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\ysPWM.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>86</YPos2><SelStart2>4378</SelStart2><SelEnd2>4378</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\sources\ysParamIden.c</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>1252</SelStart2><SelEnd2>1252</SelEnd2></Tab><Tab><Factory>TextEditor</Factory><Filename>$WS_DIR$\Includes\ysParamIden.h</Filename><XPos>0</XPos><YPos>0</YPos><SelStart>0</SelStart><SelEnd>0</SelEnd><XPos2>0</XPos2><YPos2>0</YPos2><SelStart2>1188</SelStart2><SelEnd2>1188</SelEnd2></Tab></Pane><ActivePane>0</ActivePane><Sizes><Pane><X>1000000</X><Y>1000000</Y></Pane></Sizes><SplitMode>1</SplitMode></Editor>
     <Positions>
       
       
       
       
       
-    <Top><Row0><Sizes><Toolbar-00F84328><key>iaridepm.enu1</key></Toolbar-00F84328></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd1><Rect><Top>-2</Top><Left>-2</Left><Bottom>374</Bottom><Right>324</Right><x>-2</x><y>-2</y><xscreen>165</xscreen><yscreen>156</yscreen><sizeHorzCX>139358</sizeHorzCX><sizeHorzCY>272251</sizeHorzCY><sizeVertCX>275338</sizeVertCX><sizeVertCY>656195</sizeVertCY></Rect></Wnd1></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd0><Rect><Top>-2</Top><Left>-2</Left><Bottom>154</Bottom><Right>1186</Right><x>-2</x><y>-2</y><xscreen>1188</xscreen><yscreen>156</yscreen><sizeHorzCX>1003378</sizeHorzCX><sizeHorzCY>272251</sizeHorzCY><sizeVertCX>139358</sizeVertCX><sizeVertCY>272251</sizeVertCY></Rect></Wnd0></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
+    <Top><Row0><Sizes><Toolbar-04DD7BE0><key>iaridepm.enu1</key></Toolbar-04DD7BE0></Sizes></Row0><Row1><Sizes/></Row1></Top><Left><Row0><Sizes><Wnd3><Rect><Top>-2</Top><Left>-2</Left><Bottom>376</Bottom><Right>286</Right><x>-2</x><y>-2</y><xscreen>165</xscreen><yscreen>154</yscreen><sizeHorzCX>139358</sizeHorzCX><sizeHorzCY>268761</sizeHorzCY><sizeVertCX>243243</sizeVertCX><sizeVertCY>659686</sizeVertCY></Rect></Wnd3></Sizes></Row0></Left><Right><Row0><Sizes/></Row0></Right><Bottom><Row0><Sizes><Wnd2><Rect><Top>-2</Top><Left>-2</Left><Bottom>152</Bottom><Right>1186</Right><x>-2</x><y>-2</y><xscreen>1188</xscreen><yscreen>154</yscreen><sizeHorzCX>1003378</sizeHorzCX><sizeHorzCY>268761</sizeHorzCY><sizeVertCX>139358</sizeVertCX><sizeVertCY>268761</sizeVertCY></Rect></Wnd2></Sizes></Row0></Bottom><Float><Sizes/></Float></Positions>
   </Desktop>
 </Workspace>
 

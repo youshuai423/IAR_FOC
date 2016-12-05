@@ -10,6 +10,8 @@
 uint16_t Tinv[3] = {0, 0, 0};  // 三相对应PWM寄存器比较值
 int temp = 0;
 int count = 0;
+int8_t msg[100];
+int msgIndex = 0;
 
 /******************************************************************************
 @brief   Main
@@ -29,15 +31,13 @@ void main(void)
   InitFTM1();  // 编码器控制
   InitFTM3();  // PWM DA
   InitADC();
+  InitUART1();
   InitPIT();  // 计算转速和转速给定值
  
-  int i = 0;
-  for(i = 0; i < 1000; i++){};  // 等待ADC模块稳定
-  ADC_WR_CTRL1_START0(ADC, 1); 
-  
-  idq_cmd.d = 5;
-  idq_cmd.q = 10;
-  
+  //int i = 0;
+  //for(i = 0; i < 1000; i++){};  // 等待ADC模块稳定
+  //ADC_WR_CTRL1_START0(ADC, 1); 
+
   /* enable interrupts  */
   __enable_irq();
 
@@ -53,25 +53,25 @@ void main(void)
 @return  N/A
 ******************************************************************************/
 /*void PWMA_RELOAD0_IRQHandler_TEMP(void)
-{  
-  /* current sampling and voltage calculation *
+{ 
+  * current sampling and voltage calculation *
 
-  /* speed calculation *
+  * speed calculation *
   spdCal_M();
   
-  /* 3s/2r coordinate transform *
+  * 3s/2r coordinate transform *
   S3toR2(iabc, &idq, theta);
 
-  /* rotor flux calculation *
+  * rotor flux calculation *
   lamdar = lamdarCal(lamdar, idq.d);
 
-  /* theta calculation *
+  * theta calculation *
   theta = positonCal(speed / 60.0 * np, lamdar, idq.q, theta);
 
-  /* ud* calculation *
+  * ud* calculation *
   udq_cmd.d = PImodule(ud_Kp, ud_Ki, udq_cmd.d, idq_cmd.d - idq.d, &idlasterr, udlimit_H, udlimit_L);
 
-  /* uq* calculation *
+  * uq* calculation *
   if (speed < spdthd)
     idq_cmd.q = PImodule(iq_Kp1, iq_Ki1, idq_cmd.q, spd_cmd - speed, &spdlasterr, iqlimit_H, iqlimit_L);
   else
@@ -79,13 +79,13 @@ void main(void)
  
   udq_cmd.q = PImodule(uq_Kp, uq_Ki, udq_cmd.q, idq_cmd.q - idq.q, &iqlasterr, uqlimit_H, uqlimit_L);
 
-  /* 2r/2s coordinate transform *
+  * 2r/2s coordinate transform *
   R2toS2(udq_cmd, &ualbe_cmd, theta); 
 
-  /* SVM modulation *
+  * SVM modulation *
   ualbeSVM(ualbe_cmd.al, ualbe_cmd.be, Ud, Tinv);
 
-  /* register setting *
+  * register setting *
   PWM_WR_VAL2(PWMA, 0, -Tinv[0]);
   PWM_WR_VAL2(PWMA, 1, -Tinv[1]);
   PWM_WR_VAL2(PWMA, 2, -Tinv[2]);
@@ -118,6 +118,10 @@ void PORTE_IRQHandler(void)
     ADC_WR_CTRL1_STOP0(ADC, 0);
     ADC_WR_CTRL2_STOP1(ADC, 1);
     
+    int i = 0;
+    for(i = 0; i < 1000; i++){};  // 等待ADC模块稳定
+    ADC_WR_CTRL1_START0(ADC, 1); 
+    
     /* start PWMs (set load OK flags and run) */
     PWM_WR_MASK_MASKA(PWMA, 0);
     PWM_WR_MASK_MASKB(PWMA, 0);
@@ -131,7 +135,7 @@ void PORTE_IRQHandler(void)
   {
     spd_req = 0;
     
-    while(spd_cmd > 100){};  // 中断优先级设置出错
+    while(spd_cmd > 100){};
     
     /* clear interrupt flags */
     PWM_WR_STS_RF(PWMA, 0, TRUE);
@@ -168,6 +172,22 @@ void PORTE_IRQHandler(void)
 ******************************************************************************/
 void PWMA_RELOAD0_IRQHandler(void)
 {   
+  if (stage == 0)  // Rs辨识
+  {
+    RsIden_offline();
+  }
+  else if (stage == 1)  // Rr Llr辨识
+  {
+    ShortIden_offline();
+  }
+  else if (stage == 2)  // Lm + Llr辨识
+  {
+    OpenIden_offline();
+  }
+  else
+  {
+    Openloop();
+  }
     double cosIn = cos(theta);
     double sinIn = sin(theta);
     
@@ -175,6 +195,8 @@ void PWMA_RELOAD0_IRQHandler(void)
     iabc.c = ADC_RD_RSLT_RSLT(ADC, 1) * 0.2111 - 400;
     iabc.a = ADC_RD_RSLT_RSLT(ADC, 2) * 0.2084 - 400;
     iabc.b = -iabc.a - iabc.c;
+    msg[msgIndex] = iabc.a;
+    msgIndex++;
     
     //S3toR2(iabc, &idq, theta+1);
     S3toS2(iabc, &ialbe);
@@ -238,17 +260,21 @@ void PWMA_RERR_IRQHandler(void)
 @return  N/A
 ******************************************************************************/
 void PIT0_IRQHandler(void)
-{
+{      
+  //uartNumber(msg, msgIndex);
+  msgIndex = 0;
+  uartSend(iabc.a);
+  
   PIT_WR_TFLG_TIF(PIT, 0, 1);
   
   speed = spdCal_M();  // 转速计算
   
   if (spd_cmd < spd_req)
   {
-    spd_cmd = RAMP(spdramp, spd_cmd, 0.1, spdlimit_H, spdlimit_L);  // 转速给定值计算
+    spd_cmd = RAMP(spdramp, spd_cmd, 0.001, spdlimit_H, spdlimit_L);  // 转速给定值计算
   }
   else if (spd_cmd > spd_req)
   {
-    spd_cmd = RAMP(spdramp, spd_cmd, -0.1, spdlimit_H, spdlimit_L);  // 转速给定值计算
+    spd_cmd = RAMP(spdramp, spd_cmd, -0.001, spdlimit_H, spdlimit_L);  // 转速给定值计算
   }
 }

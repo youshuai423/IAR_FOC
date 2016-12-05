@@ -55,7 +55,17 @@ void InitPORT(void)
     PORT_WR_PCR_MUX(PORTC, 10, 3);  // set port
     
     /* PIT port configuration */
-    SIM_WR_SCGC6_PIT(SIM, 1);  // enable clock
+    SIM_WR_SCGC6_PIT(SIM, 1);  // enable clock    
+    
+    /* UART port configuration */
+    SIM_WR_SCGC4_UART1(SIM, 1);  // enable clock  
+    
+    PORT_WR_PCR_MUX(PORTC, 4, 3);  // set port
+    
+    /* CAN0 port configuration */
+    //SIM_WR_SCGC6_FLEXCAN0(SIM, 1);  // enable clock
+    //PORT_WR_PCR_MUX(PORTB, 18, 2);  // set port
+    //PORT_WR_PCR_MUX(PORTB, 19, 2);  // set port
     
     /* GPIO configuration */
     PORT_WR_PCR_MUX(PORTB, 22, 1);  
@@ -66,6 +76,7 @@ void InitPORT(void)
     PORT_WR_PCR_MUX(PORTE, 19, 1); 
     PORT_WR_PCR_IRQC(PORTE, 19, 11);
     GPIO_SET_PDDR(PTE, 0<<19);    
+    
       /* enable & setup interrupts */
     NVIC_EnableIRQ(PORTE_IRQn);                                          /* enable Interrupt */
     NVIC_SetPriority(PORTE_IRQn, 4);                                     /* set priority to interrupt */
